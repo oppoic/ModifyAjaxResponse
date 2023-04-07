@@ -1,9 +1,13 @@
-// chrome.action.onClicked.addListener(function () {
-//     chrome.tabs.create({ url: 'default.html' })
-// });
-
-let color = '#3aa757';
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ color });
-    console.log('Default background color set to %cgreen', `color: ${color}`);
+chrome.action.onClicked.addListener(() => {
+    chrome.tabs.query({ url: 'chrome-extension://oajgihknmenlaojhdnmchilhcbplifih/config.html' }, function (tabs) {
+        if (tabs.length > 0) {
+            let tb = tabs[0];
+            chrome.windows.update(tb.windowId, { 'focused': true/*, 'drawAttention': true*/ }, function () {
+                chrome.tabs.update(tb.id, { 'active': true });
+            });
+        }
+        else {
+            chrome.tabs.create({ url: 'config.html' });
+        }
+    });
 });
