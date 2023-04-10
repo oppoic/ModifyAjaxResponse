@@ -1,1 +1,2 @@
-// document.title = location.href;
+document.title = location.href;
+console.log('abcd');

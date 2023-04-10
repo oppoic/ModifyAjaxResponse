@@ -1,5 +1,5 @@
 chrome.action.onClicked.addListener(() => {
-    chrome.tabs.query({ url: 'chrome-extension://oajgihknmenlaojhdnmchilhcbplifih/config.html' }, function (tabs) {
+    chrome.tabs.query({ url: chrome.runtime.getURL('config.html') }, function (tabs) {
         if (tabs.length > 0) {
             let tb = tabs[0];
             chrome.windows.update(tb.windowId, { 'focused': true/*, 'drawAttention': true*/ }, function () {
