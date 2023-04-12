@@ -31,7 +31,7 @@
                 var callback = function () { };
                 for (let i = 0, len = cacheRules.length; i < len; i++) {
                     var curRule = cacheRules[i];
-                    if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : curRule.pattern === url) {
+                    if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
                         flag = true;
                         callback = curRule.callback;
                         break;
@@ -58,7 +58,7 @@
             {
                 method: 'get',
                 pattern: 'https://jsonplaceholder.typicode.com/todos/1',//支持正则或完整url
-                callback: function (response) {
+                callback: function () {
                     return JSON.stringify({ id: 123, title: 'title_title_title', userId: 321, completed: true });
                 }
             }
