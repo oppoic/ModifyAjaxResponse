@@ -1,11 +1,11 @@
 layui.use(['layer', 'form'], function () {
-    var layer = layui.layer;
-    var form = layui.form;
+    var layer = layui.layer, form = layui.form;
+    //form.render();
 
     form.verify({
         sort: function (value) {
-            var pattern = /^\d+$/;
-            if (!pattern.test(value)) {
+            var regSort = /^\d+$/;
+            if (!regSort.test(value)) {
                 return 'must be number';
             }
             if (value.length > 10) {
@@ -19,9 +19,25 @@ layui.use(['layer', 'form'], function () {
         }
     });
 
-    //layer.msg('Hello World');
+    form.on('submit(add)', function () {
+        layer.msg('add');
+
+        return false;
+    });
+    form.on('submit(import)', function () {
+        layer.msg('import');
+
+        return false;
+    });
+    form.on('submit(export)', function () {
+        layer.msg('export');
+
+        return false;
+    });
+
     form.on('submit(formConfig)', function (data) {
         layer.msg(JSON.stringify(data.field));
+
         return false;
     });
 });

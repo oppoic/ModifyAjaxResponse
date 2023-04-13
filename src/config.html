@@ -11,7 +11,15 @@
 
 <body>
   <div class="layui-fluid">
-    新增 导入 导出 隐藏禁用Hide Disabled（提示7天就自动关闭）
+    <form class="layui-form" action="">
+      <div class="layui-form-item" style="margin-top: 15px;">
+        <button class="layui-btn" lay-submit lay-filter="add">Add</button>
+        <button class="layui-btn" lay-submit lay-filter="import">Import</button>
+        <button class="layui-btn" lay-submit lay-filter="export">Export</button>
+        <!-- <input type="checkbox" lay-filter="hide" title="Hide Disabled"> -->
+        <input type="checkbox" lay-filter="start" title="Start">auto Stop in 24hrs
+      </div>
+    </form>
     <div class="layui-row layui-col-space20">
       <div class="layui-col-md6">
         <table class="layui-table">
@@ -20,7 +28,7 @@
             <col width="120">
             <col width="100">
             <col>
-            <col width="100">
+            <col width="130">
           </colgroup>
           <thead>
             <tr>
@@ -33,25 +41,29 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="layui-badge layui-bg-green">on</span></td>
+              <td><span class="layui-badge layui-bg-green">Enable</span></td>
               <td>1</td>
               <td>get</td>
               <td>/app\.json/gi</td>
               <td><span class="layui-badge-rim">delete</span></td>
             </tr>
             <tr>
-              <td><span class="layui-badge layui-bg-green">on</span></td>
+              <td><span class="layui-badge layui-bg-green">Enable</span></td>
               <td>2</td>
               <td>get</td>
               <td>/api/Common/UserInfo</td>
               <td><span class="layui-badge-rim">delete</span></td>
             </tr>
             <tr>
-              <td><span class="layui-badge">off</span></td>
+              <td><span class="layui-badge">Disable</span></td>
               <td>3</td>
               <td>get</td>
               <td>/api/Menu/UserMenu</td>
-              <td><span class="layui-badge-rim">delete</span></td>
+              <td>
+                <button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-edit"></i></button>
+                <button type="button" class="layui-btn layui-btn-sm"><i
+                    class="layui-icon layui-icon-delete"></i></button>
+              </td>
             </tr>
           </tbody>
         </table>
