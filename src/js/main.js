@@ -12,12 +12,8 @@ function intercept_ajax(rules) {
         var callback = function () { };
         for (let i = 0, len = cacheRules.length; i < len; i++) {
             var curRule = cacheRules[i];
-
-            console.log(url);
-            console.log(curRule.pattern);
-            console.log(url.indexOf(curRule.pattern));
-
-
+            console.log('Request URL [' + method + ']' + url);
+            console.log('Match Rules [' + curRule.method + ']' + curRule.pattern);
             if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
                 flag = true;
                 callback = curRule.callback;
@@ -28,8 +24,9 @@ function intercept_ajax(rules) {
         this.addEventListener('readystatechange', function (event) {
             if (flag && this.readyState === 4) {
                 var response = callback(event.target.responseText);
-                console.log('修改前：' + event.target.responseText);
-                console.log('修改后：' + response);
+                console.log('[Matched]');
+                console.log('Original Response ' + event.target.responseText);
+                console.log('Modify Response ' + response);
                 Object.defineProperty(this, 'response', { writable: true });
                 Object.defineProperty(this, 'responseText', { writable: true });
                 this.response = this.responseText = response;
@@ -43,7 +40,7 @@ window.intercept_ajax = intercept_ajax;
 intercept_ajax([
     {
         method: 'get',
-        pattern: 'https://ks.septnet.cn/api/Common/UserInfo',//支持正则或完整url
+        pattern: '/api/Common/UserInfo',//支持正则或完整url
         callback: function () {
             return JSON.stringify({
                 status: 200,
@@ -61,10 +58,10 @@ intercept_ajax([
     },
     {
         method: 'get',
-        pattern: 'https://uniontool.septnet.cn/api/Menu/UserMenu',//支持正则或完整url
+        pattern: '/api/Menu/UserMenu',//支持正则或完整url
         callback: function () {
             return JSON.stringify({
-                status: 200,
+                code: 200,
                 message: 'success',
                 data: {
                     menuUser: {
