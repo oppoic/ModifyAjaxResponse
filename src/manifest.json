@@ -34,7 +34,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "js/main.js"
+                "/dist/main.js"
             ],
             "matches": [
                 "<all_urls>"
