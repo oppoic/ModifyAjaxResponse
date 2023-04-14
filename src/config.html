@@ -11,15 +11,17 @@
 
 <body>
   <div class="layui-fluid">
-    <form class="layui-form" action="">
-      <div class="layui-form-item" style="margin-top: 15px;">
-        <button class="layui-btn" lay-submit lay-filter="add">Add</button>
-        <button class="layui-btn" lay-submit lay-filter="import">Import</button>
-        <button class="layui-btn" lay-submit lay-filter="export">Export</button>
-        <!-- <input type="checkbox" lay-filter="hide" title="Hide Disabled"> -->
-        <input type="checkbox" lay-filter="start" title="Start">auto Stop in 24hrs
-      </div>
-    </form>
+    <div class="layui-row">
+      <form class="layui-form" action="">
+        <div class="layui-form-item" style="margin-top: 15px;">
+          <button class="layui-btn" lay-submit lay-filter="add">Add</button>
+          <button class="layui-btn" lay-submit lay-filter="import">Import</button>
+          <button class="layui-btn" lay-submit lay-filter="export">Export</button>
+          <!-- <input type="checkbox" lay-filter="hide" title="Hide Disabled"> -->
+          <input type="checkbox" lay-filter="start" title="Start">auto Stop in 24hrs
+        </div>
+      </form>
+    </div>
     <div class="layui-row layui-col-space20">
       <div class="layui-col-md6">
         <table class="layui-table">
@@ -73,7 +75,7 @@
           <div class="layui-form-item" pane="">
             <label class="layui-form-label">status</label>
             <div class="layui-input-block">
-              <input type="checkbox" name="status" lay-skin="switch">
+              <input type="checkbox" name="status" lay-skin="switch" lay-text="Enable|Disable">
             </div>
           </div>
           <div class="layui-form-item">

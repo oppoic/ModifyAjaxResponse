@@ -1,3 +1,12 @@
+
+<script type="text/html" id="toolbarConfig">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="config_add">Add</button>
+    </div>
+</script>
+
+
+
 layui.use(['layer', 'form'], function () {
     var layer = layui.layer, form = layui.form;
     //form.render();
