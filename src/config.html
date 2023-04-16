@@ -11,27 +11,28 @@
 
 <body>
   <div class="layui-fluid">
-    <div class="layui-row">
+    <!-- <div class="layui-row">
       <form class="layui-form" action="">
         <div class="layui-form-item" style="margin-top: 15px;">
           <button class="layui-btn" lay-submit lay-filter="add">Add</button>
           <button class="layui-btn" lay-submit lay-filter="import">Import</button>
           <button class="layui-btn" lay-submit lay-filter="export">Export</button>
-          <!-- <input type="checkbox" lay-filter="hide" title="Hide Disabled"> -->
           <input type="checkbox" lay-filter="start" title="Start">auto Stop in 24hrs
         </div>
       </form>
-    </div>
+    </div> -->
     <div class="layui-row layui-col-space20">
       <div class="layui-col-md6">
 
-        <script type="text/html" id="toolbarConfig">
+        <table class="layui-hide" id="configTable"></table>
+
+        <!-- <script type="text/html" id="toolbarConfig">
           <div class="layui-btn-container">
               <button class="layui-btn layui-btn-sm" lay-event="config_add">Add</button>
           </div>
-        </script>
+        </script> -->
 
-        <table class="layui-table">
+        <!-- <table class="layui-table">
           <colgroup>
             <col width="100">
             <col width="120">
@@ -75,7 +76,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
       </div>
       <div class="layui-col-md6">
         <form class="layui-form layui-form-pane" action="" style="margin: 10px 0;">
