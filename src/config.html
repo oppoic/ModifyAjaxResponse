@@ -11,18 +11,6 @@
 
 <body>
     <div class="container-fluid">
-        <!-- <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn float-start">Import</button>
-                <button type="button" class="btn float-start">Export</button>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="status">
-                    <label class="form-check-label" for="status">status</label>
-                </div>
-                <button type="button" class="btn btn-primary float-end">Add</button>
-            </div>
-            <div class="col-md-6"></div>
-        </div> -->
         <div class="row mt-3">
             <div class="col-md-6">
                 <table class="table table-hover table-bordered">
@@ -68,12 +56,12 @@
                 </table>
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-secondary float-end">Add</button>
-                        <button type="button" class="btn float-end">Export</button>
-                        <button type="button" class="btn float-end">Import</button>
+                        <button type="button" class="btn btn-secondary float-end" id="btnAdd">Add</button>
+                        <button type="button" class="btn float-end" id="btnExport">Export</button>
+                        <button type="button" class="btn float-end" id="btnImport">Import</button>
                         <div class="form-check form-switch float-left mt-2">
                             <input class="form-check-input" type="checkbox">
-                            <label class="form-check-label">extension on/off<span
+                            <label class="form-check-label" id="lblStatus">extension on/off<span
                                     title="To save performance, this will automatically close after 24 hours">[?]</span></label>
                         </div>
                     </div>
@@ -81,29 +69,31 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="status" style="width: 90px;">status</span>
-                    <input type="text" class="form-control" value="Enable" readonly disabled>
+                    <span class="input-group-text" style="width: 90px;">status</span>
+                    <input type="text" class="form-control" id="status" readonly disabled>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="sort" style="width: 90px;">sort</span>
-                    <input type="text" class="form-control" value="1" readonly disabled>
+                    <span class="input-group-text" style="width: 90px;">sort</span>
+                    <input type="text" class="form-control" id="sort" readonly disabled>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="method" style="width: 90px;">method</span>
-                    <input type="text" class="form-control" value="get" readonly disabled>
+                    <span class="input-group-text" style="width: 90px;">method</span>
+                    <input type="text" class="form-control" id="method" readonly disabled>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="pattern" style="width: 90px;">pattern</span>
-                    <input type="text" class="form-control" value="/api/Menu/UserMenu" readonly disabled>
+                    <span class="input-group-text" style="width: 90px;">pattern</span>
+                    <input type="text" class="form-control" id="pattern" readonly disabled>
                 </div>
                 <div class="input-group">
                     <span class="input-group-text" style="width: 90px;">response</span>
-                    <textarea class="form-control" readonly disabled style="height: 400px;">response</textarea>
+                    <textarea class="form-control" id="response" readonly disabled style="height: 400px;"></textarea>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="dist/jQuery/jquery-3.6.4.min.js"></script>
+    <script src="dist/myScript.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script> -->

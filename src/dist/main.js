@@ -36,11 +36,6 @@ function intercept_ajax(rules) {
 };
 window.intercept_ajax = intercept_ajax;
 
-
-//24小时就关闭，关闭就改变图标
-
-
-
 intercept_ajax([
     {
         method: 'get',
