@@ -36,49 +36,49 @@ function intercept_ajax(rules) {
 };
 window.intercept_ajax = intercept_ajax;
 
-intercept_ajax([
-    {
-        method: 'get',
-        pattern: '/api/Common/UserInfo',//支持正则或完整url
-        callback: function () {
-            return JSON.stringify({
-                data: {
-                    userId: '18310787656',
-                    userName: 'test',
-                    userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
-                    isSuper: true,
-                    ruInfo: { ru: '3408059', name: '学中溪龙', isUnion: false },
-                    permissions: ['Agent']
-                },
-                status: 200,
-                message: 'ok'
-            });
-        }
-    },
-    {
-        method: 'get',
-        pattern: '/api/Menu/UserMenu',//支持正则或完整url
-        callback: function () {
-            return JSON.stringify({
-                code: 200,
-                message: 'success',
-                data: {
-                    menuUser: {
-                        userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
-                        userName: 'zhangsan',
-                        userPhone: '18888888888'
-                    },
-                    parents: [{
-                        parentKey: 'FCDS',
-                        parentName: 'FCDS',
-                        childrens: [{
-                            menuKey: 'boj',
-                            menuName: 'boj',
-                            menuUrl: 'sdcf;job.html'
-                        }]
-                    }]
-                }
-            });
-        }
-    }
-]);
+// intercept_ajax([
+//     {
+//         method: 'get',
+//         pattern: '/api/Common/UserInfo',//支持正则或完整url
+//         callback: function () {
+//             return JSON.stringify({
+//                 data: {
+//                     userId: '18310787656',
+//                     userName: 'test',
+//                     userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
+//                     isSuper: true,
+//                     ruInfo: { ru: '3408059', name: '学中溪龙', isUnion: false },
+//                     permissions: ['Agent']
+//                 },
+//                 status: 200,
+//                 message: 'ok'
+//             });
+//         }
+//     },
+//     {
+//         method: 'get',
+//         pattern: '/api/Menu/UserMenu',//支持正则或完整url
+//         callback: function () {
+//             return JSON.stringify({
+//                 code: 200,
+//                 message: 'success',
+//                 data: {
+//                     menuUser: {
+//                         userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
+//                         userName: 'zhangsan',
+//                         userPhone: '18888888888'
+//                     },
+//                     parents: [{
+//                         parentKey: 'FCDS',
+//                         parentName: 'FCDS',
+//                         childrens: [{
+//                             menuKey: 'boj',
+//                             menuName: 'boj',
+//                             menuUrl: 'sdcf;job.html'
+//                         }]
+//                     }]
+//                 }
+//             });
+//         }
+//     }
+// ]);

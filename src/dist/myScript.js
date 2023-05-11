@@ -20,7 +20,7 @@ $(function () {
 
     $('#btnAdd').on('click', function () {
         console.log('btnAdd click');
-
+        alert('btnAdd click');
     });
 
 
