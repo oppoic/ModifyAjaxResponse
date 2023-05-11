@@ -9,11 +9,11 @@ $(function () {
 
     $('#iptStatus').on('click', function () {
         if (($(this).prop('checked'))) {
-            $('#lblStatus').text('extension on');
+            $('#lblStatus').text('on');
             $('#spnTitle').show();
         }
         else {
-            $('#lblStatus').text('extension off');
+            $('#lblStatus').text('off');
             $('#spnTitle').hide();
         }
     });
@@ -22,6 +22,5 @@ $(function () {
         console.log('btnAdd click');
         alert('btnAdd click');
     });
-
 
 });
