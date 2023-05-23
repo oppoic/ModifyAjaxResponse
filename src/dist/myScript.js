@@ -20,7 +20,10 @@ $(function () {
 
     $('#btnAdd').on('click', function () {
         console.log('btnAdd click');
-        alert('btnAdd click');
+    });
+
+    $('#btnSave').on('click', function () {
+        console.log('btnSave click');
     });
 
 });
