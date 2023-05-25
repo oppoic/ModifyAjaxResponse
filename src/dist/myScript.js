@@ -16,14 +16,26 @@ $(function () {
             $('#lblStatus').text('off');
             $('#spnTitle').hide();
         }
+
+        var value = '!dlrow olleh';
+        chrome.storage.local.set({ data: value }, function () {
+            console.log('value is set to ' + value);
+        });
     });
 
     $('#btnAdd').on('click', function () {
-        console.log('btnAdd click');
+        var value = 'hello world!';
+        chrome.storage.local.set({ data: value }, function () {
+            console.log('value is set to ' + value);
+        });
+
     });
 
     $('#btnSave').on('click', function () {
-        console.log('btnSave click');
+        chrome.storage.local.get(['data'], function (result) {
+            console.log('value currently is ' + result.data);
+        });
+
     });
 
 });
