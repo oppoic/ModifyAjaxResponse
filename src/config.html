@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ModifyAjaxResponse Config</title>
     <link href="dist/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="dist/toastr/toastr.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -23,22 +24,8 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>get</td>
-                            <td>/app\.json/gi</td>
-                            <td>
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox">
-                                </div>
-                            </td>
-                            <td>
-                                <!-- <button type="button" class="btn btn-sm btn-link">edit</button> -->
-                                <button type="button" class="btn btn-sm btn-link">delete</button>
-                            </td>
-                        </tr>
-                        <tr class="table-active">
+                    <tbody id='tblContent'>
+                        <!-- <tr class="table-active">
                             <td>2</td>
                             <td>post</td>
                             <td>/api/Menu/UserMenu</td>
@@ -48,16 +35,16 @@
                                 </div>
                             </td>
                             <td>
-                                <!-- <button type="button" class="btn btn-sm btn-link">edit</button> -->
                                 <button type="button" class="btn btn-sm btn-link">delete</button>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <button type="button" class="btn float-left" id="btnImport">Import</button>
                         <button type="button" class="btn float-left" id="btnExport">Export</button>
+                        <button type="button" class="btn float-left" id="btnClear">Delete ALL</button>
                         <button type="button" class="btn btn-secondary float-left" id="btnAdd">Add</button>
                         <div class="form-check form-switch float-end mt-2 ms-3">
                             <input class="form-check-input" id="iptStatus" type="checkbox">
@@ -72,16 +59,19 @@
             </div>
             <div class="col-md-6">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width: 90px;">status</span>
-                    <input type="text" class="form-control" id="status">
-                </div>
-                <div class="input-group mb-3">
                     <span class="input-group-text" style="width: 90px;">sort</span>
                     <input type="text" class="form-control" id="sort">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" style="width: 90px;">method</span>
-                    <input type="text" class="form-control" id="method">
+                    <select class="form-select" id="method">
+                        <option value="get" selected>Get</option>
+                        <option value="post">Post</option>
+                        <option value="head">Head</option>
+                        <option value="put">Put</option>
+                        <option value="delete">Delete</option>
+                        <option value="options">Options</option>
+                    </select>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" style="width: 90px;">pattern</span>
@@ -97,10 +87,9 @@
     </div>
 
     <script src="dist/jQuery/jquery-3.6.4.min.js"></script>
+    <!-- <script src="dist/bootstrap/bootstrap.min.js"></script> -->
+    <script src="dist/toastr/toastr.min.js"></script>
     <script src="dist/myScript.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script> -->
 </body>
 
 </html>
