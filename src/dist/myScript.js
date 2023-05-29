@@ -2,6 +2,23 @@
 $(function () {
     showTable();
 
+    chrome.storage.local.get(['switch'], function (result) {
+        console.log(result.switch);
+        if (result.switch && result.switch) {
+            $('#iptStatus').prop("checked", true);
+            $('#lblStatus').text('on');
+            $('#spnTitle').show();
+        }
+        else {
+            $('#lblStatus').text('off');
+            $('#spnTitle').hide();
+        }
+    });
+
+    // chrome.storage.local.get(['switchTime'], function (result) {
+    //     console.log(result.switchTime);
+    // });
+
     $('#btnImport').on('click', function () {
         showTip(2, 'btnImport');
     });
@@ -12,12 +29,16 @@ $(function () {
 
     $('#btnClear').on('click', function () {
         if (confirm('sure to delete all?')) {
-            chrome.storage.local.clear();
-            showTable();
+            chrome.storage.local.set({
+                data: []
+            }, function () {
+                showTable();
+            });
         }
     });
 
     $('#btnAdd').on('click', function () {
+        showTip(1, 'btnAdd');
 
     });
 
@@ -26,33 +47,63 @@ $(function () {
 
     });
 
-    $('#tblContent').on('click', 'tr input[type=checkbox]', function () {
+    $('#tblContent').on('click', 'tr input[type=checkbox]', function (event) {
         var dtGuid = $(this).closest('tr').attr('data-label');
-        console.log(dtGuid);
+        var dtStatus = $(this).prop('checked');
 
-
-        return false;//阻止冒泡
+        chrome.storage.local.get(['data'], function (result) {
+            $.each(result.data, function (i, v) {
+                if (v.guid === dtGuid) {
+                    v.status = dtStatus;
+                    return false;
+                }
+            });
+            chrome.storage.local.set({
+                data: result.data
+            }, function () {
+                showTable();
+            });
+        });
+        event.stopPropagation();
     });
 
-    $('#tblContent').on('click', 'tr button', function () {
-        if (confirm('sure to delete this?')) {
+    $('#tblContent').on('click', 'tr button', function (event) {
+        if (confirm('sure to delete?')) {
             var dtGuid = $(this).closest('tr').attr('data-label');
-            console.log(dtGuid);
+            var arrayData = [];
 
+            chrome.storage.local.get(['data'], function (result) {
+                $.each(result.data, function (i, v) {
+                    if (v.guid !== dtGuid) {
+                        arrayData.push(v);
+                    }
+                });
+                chrome.storage.local.set({
+                    data: arrayData
+                }, function () {
+                    showTable();
+                });
+            });
         }
-
-        return false;//阻止冒泡
+        event.stopPropagation();
     });
 
     $('#iptStatus').on('click', function () {
-        if (($(this).prop('checked'))) {
-            $('#lblStatus').text('on');
-            $('#spnTitle').show();
-        }
-        else {
-            $('#lblStatus').text('off');
-            $('#spnTitle').hide();
-        }
+        var flag = $(this).prop('checked');
+        chrome.storage.local.set({
+            switch: flag
+        }, function () {
+            if (flag) {
+                chrome.storage.local.set({ switchTime: new Date().toLocaleString() }, function () {
+                    $('#lblStatus').text('on');
+                    $('#spnTitle').show();
+                });
+            }
+            else {
+                $('#lblStatus').text('off');
+                $('#spnTitle').hide();
+            }
+        });
     });
 
     $('#btnSave').on('click', function () {
@@ -123,12 +174,19 @@ $(function () {
 function showTable() {
     $('#tblContent').empty();
     chrome.storage.local.get(['data'], function (result) {
-        if (result.data && result.data !== undefined) {
+        if (result.data && result.data !== undefined && result.data.length > 0) {
             console.log(result.data);
 
             $.each(result.data, function (i, v) {
-                $('#tblContent').append('<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div></td><td><button type="button" class="btn btn-sm btn-link">delete</button></td></tr>');
+                var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
+                if (v.status)
+                    strHtml += ' checked';
+                strHtml += '></div></td><td><button type="button" class="btn btn-sm btn-link">delete</button></td></tr>';
+                $('#tblContent').append(strHtml);
             });
+        }
+        else {
+            $('#tblContent').append('<tr><td colspan="5" align="center">Empty, Please add</td></tr>');
         }
     });
 }
