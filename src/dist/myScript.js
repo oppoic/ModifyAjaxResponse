@@ -34,7 +34,6 @@ $(function () {
 
     $('#tblContent').on('click', 'tr', function () {
         $(this).addClass('table-active').siblings().removeClass('table-active');
-        initEditArea();
         $('#formArea').show();
         $('#btnSave').attr('class', 'btn btn-success mt-3').text('Edit');
 
