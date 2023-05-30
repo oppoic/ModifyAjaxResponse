@@ -57,9 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="alert alert-primary" style="text-align: center;" id="txtEditArea">
-                </div>
+            <div class="col-md-6" id="formArea" style="display:none;">
                 <div class="input-group mb-3">
                     <span class="input-group-text" style="width: 90px;">sort</span>
                     <input type="text" class="form-control" id="sort">
@@ -77,19 +75,20 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" style="width: 90px;">pattern</span>
-                    <input type="text" class="form-control" id="pattern" placeholder="eg: /api/User/Info or ">
+                    <input type="text" class="form-control" id="pattern"
+                        placeholder="eg: /api/User/Info  or  /app\.json/gi">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text" style="width: 90px;">response</span>
                     <textarea class="form-control" id="response" style="height: 400px;"></textarea>
                 </div>
+                <input type="hidden" id="guidHidden">
                 <button type="button" class="btn btn-primary mt-3" id="btnSave"></button>
             </div>
         </div>
     </div>
 
     <script src="dist/jQuery/jquery-3.6.4.min.js"></script>
-    <!-- <script src="dist/bootstrap/bootstrap.min.js"></script> -->
     <script src="dist/toastr/toastr.min.js"></script>
     <script src="dist/myScript.js"></script>
 </body>

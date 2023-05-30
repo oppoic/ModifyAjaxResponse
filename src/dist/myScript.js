@@ -3,55 +3,46 @@ $(function () {
     showTable();
 
     chrome.storage.local.get(['switch'], function (result) {
-        if (result.switch) {
-            $('#iptStatus').prop("checked", true);
-            $('#lblStatus').text('on');
-            $('#spnTitle').show();
-        }
-        else {
-            $('#lblStatus').text('off');
-            $('#spnTitle').hide();
-        }
+        renderSwitch(result.switch)
     });
 
-    // chrome.storage.local.get(['switchTime'], function (result) {
-    //     console.log(result.switchTime);
-    // });
+    chrome.storage.local.get(null, function (items) {
+        console.log(items);
+    });
 
     $('#btnImport').on('click', function () {
-        showTip(2, 'btnImport');
+        showTip(2, 'Import building...');
     });
 
     $('#btnExport').on('click', function () {
-        showTip(3, 'btnExport');
+        showTip(2, 'Export building...');
     });
 
     $('#btnClear').on('click', function () {
-        if (confirm('delete all rules?')) {
-            chrome.storage.local.set({
-                data: []
-            }, function () {
+        if (confirm('delete all?')) {
+            chrome.storage.local.set({ data: [] }, function () {
+                $('#formArea').hide();
                 showTable();
             });
         }
     });
 
     $('#btnAdd').on('click', function () {
-        showTip(1, 'btnAdd');
         initEditArea();
-
+        $('#formArea').show();
     });
 
     $('#tblContent').on('click', 'tr', function () {
         $(this).addClass('table-active').siblings().removeClass('table-active');
-
-        $('#txtEditArea').attr('class', 'alert alert-success').html('Rule Edit');
+        initEditArea();
+        $('#formArea').show();
         $('#btnSave').attr('class', 'btn btn-success mt-3').text('Edit');
 
         var dtGuid = $(this).attr('data-label');
         chrome.storage.local.get(['data'], function (result) {
             $.each(result.data, function (i, v) {
                 if (v.guid === dtGuid) {
+                    $('#guidHidden').val(v.guid);
                     $('#sort').val(v.sort);
                     $('#method').val(v.method);
                     $('#pattern').val(v.pattern);
@@ -74,17 +65,13 @@ $(function () {
                     return false;
                 }
             });
-            chrome.storage.local.set({
-                data: result.data
-            }, function () {
-                //showTable();
-            });
+            chrome.storage.local.set({ data: result.data });
         });
         event.stopPropagation();
     });
 
     $('#tblContent').on('click', 'tr button', function (event) {
-        if (confirm('delete this rule?')) {
+        if (confirm('delete this?')) {
             var dtGuid = $(this).closest('tr').attr('data-label');
             var arrayData = [];
 
@@ -94,9 +81,8 @@ $(function () {
                         arrayData.push(v);
                     }
                 });
-                chrome.storage.local.set({
-                    data: arrayData
-                }, function () {
+                chrome.storage.local.set({ data: arrayData }, function () {
+                    $('#formArea').hide();
                     showTable();
                 });
             });
@@ -105,21 +91,7 @@ $(function () {
     });
 
     $('#iptStatus').on('click', function () {
-        var flag = $(this).prop('checked');
-        chrome.storage.local.set({
-            switch: flag
-        }, function () {
-            if (flag) {
-                chrome.storage.local.set({ switchTime: new Date().toLocaleString() }, function () {
-                    $('#lblStatus').text('on');
-                    $('#spnTitle').show();
-                });
-            }
-            else {
-                $('#lblStatus').text('off');
-                $('#spnTitle').hide();
-            }
-        });
+        operSwitch($(this).prop('checked'));
     });
 
     $('#btnSave').on('click', function () {
@@ -133,40 +105,61 @@ $(function () {
 
         var method = $.trim($('#method').val());
         if (method === '') {
-            showTip(4, 'method Cannot be empty');
+            showTip(4, 'method cannot be empty');
             return;
         }
 
         var pattern = $.trim($('#pattern').val());
         if (pattern === '') {
-            showTip(4, 'pattern Cannot be empty');
+            showTip(4, 'pattern cannot be empty');
             $('#pattern').focus();
             return;
         }
 
         var response = $.trim($('#response').val());
         if (response === '') {
-            showTip(4, 'response Cannot be empty');
+            showTip(4, 'response cannot be empty');
             $('#response').focus();
             return;
         }
 
+        var hdGuid = $('#guidHidden').val();
         chrome.storage.local.get(['data'], function (result) {
             if (result.data && result.data !== undefined) {
-                result.data.push({
-                    "guid": uuidv4(),
-                    "status": true,
-                    "sort": sort,
-                    "method": method,
-                    "pattern": pattern,//编码？
-                    "response": response//编码？
-                });
-                chrome.storage.local.set({
-                    data: result.data
-                }, function () {
-                    showTip(1);
-                    showTable();
-                });
+                if (hdGuid === '') {//add
+                    result.data.push({
+                        "guid": uuidv4(),
+                        "status": true,
+                        "sort": sort,
+                        "method": method,
+                        "pattern": pattern,//编码？
+                        "response": response//编码？
+                    });
+                    result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
+                    chrome.storage.local.set({ data: result.data }, function () {
+                        showTip(1);
+                        showTable();
+                    });
+                }
+                else {//edit
+                    chrome.storage.local.get(['data'], function (result) {
+                        $.each(result.data, function (i, v) {
+                            if (v.guid === hdGuid) {
+                                v.sort = sort;
+                                v.method = method;
+                                v.pattern = pattern;
+                                v.response = response;
+
+                                return false;
+                            }
+                        });
+                        result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
+                        chrome.storage.local.set({ data: result.data }, function () {
+                            showTip(1);
+                            showTable(hdGuid);
+                        });
+                    });
+                }
             }
             else {
                 chrome.storage.local.set({
@@ -181,20 +174,23 @@ $(function () {
                 }, function () {
                     showTip(1);
                     showTable();
+                    operSwitch(true);//first add,open switch
                 });
             }
         });
     });
 });
 
-function showTable() {
+function showTable(activeGuid) {
     $('#tblContent').empty();
     chrome.storage.local.get(['data'], function (result) {
         if (result.data && result.data !== undefined && result.data.length > 0) {
-            console.log(result.data);
-
             $.each(result.data, function (i, v) {
-                var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
+                var strHtml = '<tr';
+                if (activeGuid && activeGuid === v.guid) {
+                    strHtml += ' class="table-active"';
+                }
+                strHtml += ' data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
                 if (v.status)
                     strHtml += ' checked';
                 strHtml += '></div></td><td><button type="button" class="btn btn-sm btn-link">delete</button></td></tr>';
@@ -205,13 +201,6 @@ function showTable() {
             $('#tblContent').append('<tr><td colspan="5" align="center">Empty, Please add</td></tr>');
         }
     });
-    initEditArea();
-}
-
-function uuidv4() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
 }
 
 function initEditArea() {
@@ -219,8 +208,37 @@ function initEditArea() {
     $('#method option:first').prop('selected', true);
     $('#pattern').val('');
     $('#response').val('');
-    $('#txtEditArea').attr('class', 'alert alert-primary').html('Rule Add');
+    $('#guidHidden').val('');
     $('#btnSave').attr('class', 'btn btn-primary mt-3').text('Add');
+}
+
+function operSwitch(flag) {
+    chrome.storage.local.set({
+        switch: flag
+    }, function () {
+        if (flag) {
+            chrome.storage.local.set({ switchTime: new Date().toLocaleString() });
+        }
+        renderSwitch(flag);
+    });
+}
+
+function renderSwitch(flag) {
+    if (flag) {
+        $('#iptStatus').prop("checked", true);
+        $('#lblStatus').text('on');
+        $('#spnTitle').show();
+    }
+    else {
+        $('#lblStatus').text('off');
+        $('#spnTitle').hide();
+    }
+}
+
+function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
 
 function showTip(type, msg) {
