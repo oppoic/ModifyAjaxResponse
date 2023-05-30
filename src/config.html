@@ -14,6 +14,22 @@
     <div class="container-fluid">
         <div class="row mt-3">
             <div class="col-md-6">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <button type="button" class="btn float-left" id="btnImport">Import</button>
+                        <button type="button" class="btn float-left" id="btnExport">Export</button>
+                        <button type="button" class="btn float-left" id="btnClear">Delete ALL</button>
+                        <button type="button" class="btn btn-secondary float-left" id="btnAdd">Add</button>
+                        <div class="form-check form-switch float-end mt-2 ms-2">
+                            <input class="form-check-input" id="iptStatus" type="checkbox">
+                        </div>
+                        <div class="form-check form-switch float-end mt-2">
+                            <label class="form-check-label" id="lblStatus"></label>
+                            <span id="spnTitle" style="display:none;cursor:pointer"
+                                title="To save performance, this will automatically close after 24 hours">[?]</span>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
@@ -40,22 +56,6 @@
                         </tr> -->
                     </tbody>
                 </table>
-                <div class="row mb-3">
-                    <div class="col-md-12">
-                        <button type="button" class="btn float-left" id="btnImport">Import</button>
-                        <button type="button" class="btn float-left" id="btnExport">Export</button>
-                        <button type="button" class="btn float-left" id="btnClear">Delete ALL</button>
-                        <button type="button" class="btn btn-secondary float-left" id="btnAdd">Add</button>
-                        <div class="form-check form-switch float-end mt-2 ms-2">
-                            <input class="form-check-input" id="iptStatus" type="checkbox">
-                        </div>
-                        <div class="form-check form-switch float-end mt-2">
-                            <label class="form-check-label" id="lblStatus"></label>
-                            <span id="spnTitle" style="display:none;cursor:pointer"
-                                title="To save performance, this will automatically close after 24 hours">[?]</span>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="col-md-6" id="formArea" style="display:none;">
                 <div class="input-group mb-3">
