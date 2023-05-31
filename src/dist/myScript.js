@@ -115,27 +115,27 @@ $(function () {
         if (sort === '' || !reg.test(sort)) {
             showTip(4, 'sort must be integer');
             $('#sort').focus();
-            return;
+            return false;
         }
 
         var method = $.trim($('#method').val());
         if (method === '') {
             showTip(4, 'method cannot be empty');
-            return;
+            return false;
         }
 
         var pattern = $.trim($('#pattern').val());
         if (pattern === '') {
             showTip(4, 'pattern cannot be empty');
             $('#pattern').focus();
-            return;
+            return false;
         }
 
         var response = $.trim($('#response').val());
         if (response === '') {
             showTip(4, 'response cannot be empty');
             $('#response').focus();
-            return;
+            return false;
         }
 
         var guidHdd = $('#guidHidden').val();
@@ -152,8 +152,8 @@ $(function () {
                         "status": true,
                         "sort": sort,
                         "method": method,
-                        "pattern": pattern,//编码？
-                        "response": response//编码？
+                        "pattern": pattern,
+                        "response": response
                     });
                     result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
                     chrome.storage.local.set({ data: result.data }, function () {
@@ -188,8 +188,8 @@ $(function () {
                         "status": true,
                         "sort": sort,
                         "method": method,
-                        "pattern": pattern,//编码？
-                        "response": response//编码？
+                        "pattern": pattern,
+                        "response": response
                     }]
                 }, function () {
                     showTip(1);
