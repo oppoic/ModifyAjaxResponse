@@ -29,27 +29,35 @@ $(function () {
 
     $('#btnAdd').on('click', function () {
         initEditArea();
+        $('#tblContent tr').removeClass('table-active');
         $('#formArea').show();
     });
 
     $('#tblContent').on('click', 'tr', function () {
         $(this).addClass('table-active').siblings().removeClass('table-active');
-        $('#formArea').show();
-        $('#btnSave').attr('class', 'btn btn-success mt-3').text('Edit');
 
         var dtGuid = $(this).attr('data-label');
+        var isExist = false;
         chrome.storage.local.get(['data'], function (result) {
             $.each(result.data, function (i, v) {
                 if (v.guid === dtGuid) {
+                    isExist = true;
                     $('#guidHidden').val(v.guid);
                     $('#sort').val(v.sort);
                     $('#method').val(v.method);
                     $('#pattern').val(v.pattern);
                     $('#response').val(v.response);
-
                     return false;
                 }
             });
+            if (isExist) {
+                $('#formArea').show();
+                $('#btnSave').attr('class', 'btn btn-success mt-3').text('Edit');
+            }
+            else {
+                $('#formArea').hide();
+                showTip(4, 'not exists, please refresh page');
+            }
         });
     });
 
@@ -57,14 +65,22 @@ $(function () {
         var dtGuid = $(this).closest('tr').attr('data-label');
         var dtStatus = $(this).prop('checked');
 
+        var isExist = false;
         chrome.storage.local.get(['data'], function (result) {
             $.each(result.data, function (i, v) {
                 if (v.guid === dtGuid) {
+                    isExist = true;
                     v.status = dtStatus;
                     return false;
                 }
             });
-            chrome.storage.local.set({ data: result.data });
+            if (isExist) {
+                chrome.storage.local.set({ data: result.data });
+            }
+            else {
+                $('#formArea').hide();
+                showTip(4, 'not exists, please refresh page');
+            }
         });
         event.stopPropagation();
     });
@@ -122,12 +138,17 @@ $(function () {
             return;
         }
 
-        var hdGuid = $('#guidHidden').val();
+        var guidHdd = $('#guidHidden').val();
         chrome.storage.local.get(['data'], function (result) {
-            if (result.data && result.data !== undefined) {
-                if (hdGuid === '') {//add
+            if (result.hasOwnProperty('data')) {
+                if (guidHdd === '') {//add
+                    if (result.data.length == 0) {
+                        renderDefault(false);
+                    }
+
+                    var guidAdd = uuidv4();
                     result.data.push({
-                        "guid": uuidv4(),
+                        "guid": guidAdd,
                         "status": true,
                         "sort": sort,
                         "method": method,
@@ -137,33 +158,33 @@ $(function () {
                     result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
                     chrome.storage.local.set({ data: result.data }, function () {
                         showTip(1);
-                        showTable();
+                        showTable(guidAdd);
                     });
                 }
                 else {//edit
                     chrome.storage.local.get(['data'], function (result) {
                         $.each(result.data, function (i, v) {
-                            if (v.guid === hdGuid) {
+                            if (v.guid === guidHdd) {
                                 v.sort = sort;
                                 v.method = method;
                                 v.pattern = pattern;
                                 v.response = response;
-
                                 return false;
                             }
                         });
                         result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
                         chrome.storage.local.set({ data: result.data }, function () {
                             showTip(1);
-                            showTable(hdGuid);
+                            showTable(guidHdd);
                         });
                     });
                 }
             }
             else {
+                var guidAdd = uuidv4();
                 chrome.storage.local.set({
                     data: [{
-                        "guid": uuidv4(),
+                        "guid": guidAdd,
                         "status": true,
                         "sort": sort,
                         "method": method,
@@ -172,8 +193,10 @@ $(function () {
                     }]
                 }, function () {
                     showTip(1);
-                    showTable();
-                    operSwitch(true);//first add,open switch
+                    showTable(guidAdd);
+                    //first add:open checkbox and show table
+                    operSwitch(true);
+                    renderDefault(false);
                 });
             }
         });
@@ -183,21 +206,21 @@ $(function () {
 function showTable(activeGuid) {
     $('#tblContent').empty();
     chrome.storage.local.get(['data'], function (result) {
-        if (result.data && result.data !== undefined && result.data.length > 0) {
+        if (result.hasOwnProperty('data') && result.data.length > 0) {
             $.each(result.data, function (i, v) {
-                var strHtml = '<tr';
-                if (activeGuid && activeGuid === v.guid) {
-                    strHtml += ' class="table-active"';
-                }
-                strHtml += ' data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
+                var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
                 if (v.status)
                     strHtml += ' checked';
                 strHtml += '></div></td><td><button type="button" class="btn btn-sm btn-link">delete</button></td></tr>';
                 $('#tblContent').append(strHtml);
             });
+
+            if (activeGuid) {
+                $('#tblContent tr[data-label="' + activeGuid + '"]').click();
+            }
         }
         else {
-            $('#tblContent').append('<tr><td colspan="5" align="center">Empty, Please add</td></tr>');
+            renderDefault(true);
         }
     });
 }
@@ -231,6 +254,17 @@ function renderSwitch(flag) {
     else {
         $('#lblStatus').text('off');
         $('#spnTitle').hide();
+    }
+}
+
+function renderDefault(flag) {
+    if (flag) {
+        $('#tblContent').parent().hide();
+        $('#cdEmpty').show();
+    }
+    else {
+        $('#tblContent').parent().show();
+        $('#cdEmpty').hide();
     }
 }
 
@@ -274,7 +308,7 @@ function showTip(type, msg) {
         "timeOut": timeout
     }
 
-    if (msg === undefined || msg === '') {
+    if (typeof (msg) == "undefined" || msg === '') {
         toastr[level](msgDefault);
     }
     else {
