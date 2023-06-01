@@ -2,8 +2,8 @@
 $(function () {
     showTable();
 
-    chrome.storage.local.get(['switch'], function (result) {
-        renderSwitch(result.switch)
+    chrome.storage.local.get(['onoff'], function (result) {
+        renderOnOff(result.onoff)
     });
 
     chrome.storage.local.get(null, function (items) {
@@ -106,7 +106,7 @@ $(function () {
     });
 
     $('#iptStatus').on('click', function () {
-        operSwitch($(this).prop('checked'));
+        operOnOff($(this).prop('checked'));
     });
 
     $('#btnSave').on('click', function () {
@@ -195,7 +195,7 @@ $(function () {
                     showTip(1);
                     showTable(guidAdd);
                     //first add:open checkbox and show table
-                    operSwitch(true);
+                    operOnOff(true);
                     renderDefault(false);
                 });
             }
@@ -234,18 +234,18 @@ function initEditArea() {
     $('#btnSave').attr('class', 'btn btn-primary mt-3').text('Add');
 }
 
-function operSwitch(flag) {
+function operOnOff(flag) {
     chrome.storage.local.set({
-        switch: flag
+        onoff: flag
     }, function () {
         if (flag) {
-            chrome.storage.local.set({ switchTime: new Date().toLocaleString() });
+            chrome.storage.local.set({ onoffTime: new Date().toLocaleString() });
         }
-        renderSwitch(flag);
+        renderOnOff(flag);
     });
 }
 
-function renderSwitch(flag) {
+function renderOnOff(flag) {
     if (flag) {
         $('#iptStatus').prop("checked", true);
         $('#lblStatus').text('on');

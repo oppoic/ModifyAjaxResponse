@@ -54,31 +54,5 @@ window.intercept_ajax = intercept_ajax;
 //                 message: 'ok'
 //             });
 //         }
-//     },
-//     {
-//         method: 'get',
-//         pattern: '/api/Menu/UserMenu',//支持正则或完整url
-//         callback: function () {
-//             return JSON.stringify({
-//                 code: 200,
-//                 message: 'success',
-//                 data: {
-//                     menuUser: {
-//                         userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
-//                         userName: 'zhangsan',
-//                         userPhone: '18888888888'
-//                     },
-//                     parents: [{
-//                         parentKey: 'FCDS',
-//                         parentName: 'FCDS',
-//                         childrens: [{
-//                             menuKey: 'boj',
-//                             menuName: 'boj',
-//                             menuUrl: 'sdcf;job.html'
-//                         }]
-//                     }]
-//                 }
-//             });
-//         }
 //     }
 // ]);
