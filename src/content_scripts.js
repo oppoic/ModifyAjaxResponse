@@ -5,11 +5,8 @@ document.documentElement.appendChild(script);
 
 script.addEventListener('load', () => {
     chrome.storage.local.get(['onoff', 'data'], function (result) {
-        if (result.hasOwnProperty('onoff')) {
-            console.log(result.onoff);
-        }
-        if (result.hasOwnProperty('data')) {
-            console.log(result.data);
+        if (result.hasOwnProperty('onoff') && result.hasOwnProperty('data')) {
+            postMessage({ onoff: result.onoff, data: result.data });
         }
     });
 });

@@ -36,6 +36,20 @@ function intercept_ajax(rules) {
 };
 window.intercept_ajax = intercept_ajax;
 
+window.addEventListener("message", function (event) {
+    var dt = event.data;
+    if (dt.onoff && dt.data.length > 0) {
+        var arrRules = [];
+        for (let key in dt.data) {
+            //console.log(key + ' ' + dt.data[key]);
+
+
+        }
+        console.log(arrRules);
+        //intercept_ajax(arrRules);
+    }
+});
+
 // intercept_ajax([
 //     {
 //         method: 'get',
