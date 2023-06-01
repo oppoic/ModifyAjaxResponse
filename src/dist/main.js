@@ -38,35 +38,25 @@ window.intercept_ajax = intercept_ajax;
 
 window.addEventListener("message", function (event) {
     var dt = event.data;
-    if (dt.onoff && dt.data.length > 0) {
-        var arrRules = [];
-        for (let key in dt.data) {
-            //console.log(key + ' ' + dt.data[key]);
+    if (dt.type === 'modify_ajax_response') {
+        console.log(dt);
 
-
+        if (dt.onoff && dt.data.length > 0) {
+            var arrRules = [];
+            dt.data.forEach((element) => {
+                if (element.status) {
+                    arrRules.push({
+                        method: element.method,
+                        pattern: element.pattern,
+                        callback: function () {
+                            return element.response
+                        }
+                    });
+                }
+            });
+            if (arrRules.length > 0) {
+                intercept_ajax(arrRules);
+            }
         }
-        console.log(arrRules);
-        //intercept_ajax(arrRules);
     }
 });
-
-// intercept_ajax([
-//     {
-//         method: 'get',
-//         pattern: '/api/Common/UserInfo',//支持正则或完整url
-//         callback: function () {
-//             return JSON.stringify({
-//                 data: {
-//                     userId: '18310787656',
-//                     userName: 'test',
-//                     userGuid: '887cb663-40f1-4c5f-bd56-1e2ee094cbda',
-//                     isSuper: true,
-//                     ruInfo: { ru: '3408059', name: '学中溪龙', isUnion: false },
-//                     permissions: ['Agent']
-//                 },
-//                 status: 200,
-//                 message: 'ok'
-//             });
-//         }
-//     }
-// ]);
