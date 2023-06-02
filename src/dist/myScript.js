@@ -6,9 +6,9 @@ $(function () {
         renderOnOff(result.onoff)
     });
 
-    // chrome.storage.local.get(null, function (items) {
-    //     console.log(items);
-    // });
+    chrome.storage.local.get(null, function (items) {
+        console.log(items);
+    });
 
     $('#btnImport').on('click', function () {
         showTip(2, 'Import building...');
