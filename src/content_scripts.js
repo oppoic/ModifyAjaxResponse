@@ -6,7 +6,7 @@ document.documentElement.appendChild(script);
 script.addEventListener('load', () => {
     chrome.storage.local.get(['onoff', 'data'], function (result) {
         if (result.hasOwnProperty('onoff') && result.onoff && result.hasOwnProperty('data') && result.data.length > 0) {
-            postMessage({ type: 'modify_ajax_response', onoff: result.onoff, data: result.data });
+            postMessage({ type: 'modify_ajax_response_init', onoff: result.onoff, data: result.data });
         }
     });
 });

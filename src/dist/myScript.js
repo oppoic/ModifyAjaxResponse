@@ -6,9 +6,9 @@ $(function () {
         renderOnOff(result.onoff)
     });
 
-    chrome.storage.local.get(null, function (items) {
-        console.log(items);
-    });
+    // chrome.storage.local.get(null, function (items) {
+    //     console.log(items);
+    // });
 
     $('#btnImport').on('click', function () {
         showTip(2, 'Import building...');
@@ -250,10 +250,12 @@ function renderOnOff(flag) {
         $('#iptStatus').prop("checked", true);
         $('#lblStatus').text('on');
         $('#spnTitle').show();
+        chrome.action.setIcon({ path: "/images/16.png" });
     }
     else {
         $('#lblStatus').text('off');
         $('#spnTitle').hide();
+        chrome.action.setIcon({ path: "/images/16_gray.png" });
     }
 }
 

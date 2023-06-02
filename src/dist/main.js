@@ -12,7 +12,7 @@ function intercept_ajax(rules) {
         var callback = function () { };
         for (let i = 0, len = cacheRules.length; i < len; i++) {
             var curRule = cacheRules[i];
-            console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
+            //console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
             if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
                 flag = true;
                 callback = curRule.callback;
@@ -23,9 +23,9 @@ function intercept_ajax(rules) {
         this.addEventListener('readystatechange', function (event) {
             if (flag && this.readyState === 4) {
                 var response = callback(event.target.responseText);
-                console.log('[Matched]');
-                console.log('Original Response ' + event.target.responseText);
-                console.log('Modified Response ' + response);
+                // console.log('[Matched]');
+                // console.log('Original Response ' + event.target.responseText);
+                // console.log('Modified Response ' + response);
                 Object.defineProperty(this, 'response', { writable: true });
                 Object.defineProperty(this, 'responseText', { writable: true });
                 this.response = this.responseText = response;
@@ -38,25 +38,28 @@ window.intercept_ajax = intercept_ajax;
 
 window.addEventListener("message", function (event) {
     var dt = event.data;
-    if (dt.type === 'modify_ajax_response') {
-        console.log(dt);
+    console.log(dt);
+    // if (dt.type === 'modify_ajax_response_init') {
+    //     if (dt.onoff && dt.data.length > 0) {
+    //         var arrRules = [];
+    //         dt.data.forEach((element) => {
+    //             if (element.status) {
+    //                 arrRules.push({
+    //                     method: element.method,
+    //                     pattern: element.pattern,
+    //                     callback: function () {
+    //                         return element.response
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //         if (arrRules.length > 0) {
+    //             intercept_ajax(arrRules);
+    //         }
+    //     }
+    // }
+    // else if (dt.type === 'modify_ajax_response_change') {
+    //     console.log(dt);
 
-        if (dt.onoff && dt.data.length > 0) {
-            var arrRules = [];
-            dt.data.forEach((element) => {
-                if (element.status) {
-                    arrRules.push({
-                        method: element.method,
-                        pattern: element.pattern,
-                        callback: function () {
-                            return element.response
-                        }
-                    });
-                }
-            });
-            if (arrRules.length > 0) {
-                intercept_ajax(arrRules);
-            }
-        }
-    }
+    // }
 });
