@@ -13,7 +13,8 @@ function intercept_ajax(rules) {
         for (let i = 0, len = cacheRules.length; i < len; i++) {
             var curRule = cacheRules[i];
             //console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
-            if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
+            // if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
+            if (method == curRule.method && url.indexOf(curRule.pattern) > -1) {
                 flag = true;
                 callback = curRule.callback;
                 break;
@@ -39,27 +40,26 @@ window.intercept_ajax = intercept_ajax;
 window.addEventListener("message", function (event) {
     var dt = event.data;
     console.log(dt);
-    // if (dt.type === 'modify_ajax_response_init') {
-    //     if (dt.onoff && dt.data.length > 0) {
-    //         var arrRules = [];
-    //         dt.data.forEach((element) => {
-    //             if (element.status) {
-    //                 arrRules.push({
-    //                     method: element.method,
-    //                     pattern: element.pattern,
-    //                     callback: function () {
-    //                         return element.response
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //         if (arrRules.length > 0) {
-    //             intercept_ajax(arrRules);
-    //         }
-    //     }
-    // }
-    // else if (dt.type === 'modify_ajax_response_change') {
-    //     console.log(dt);
+    if (dt.type === 'modify_ajax_response_init') {
+        if (dt.onoff && dt.data.length > 0) {
+            var arrRules = [];
+            dt.data.forEach((element) => {
+                if (element.status) {
+                    arrRules.push({
+                        method: element.method,
+                        pattern: element.pattern,
+                        callback: function () {
+                            return element.response
+                        }
+                    });
+                }
+            });
+            if (arrRules.length > 0) {
+                intercept_ajax(arrRules);
+            }
+        }
+    }
+    else if (dt.type === 'modify_ajax_response_change') {
 
-    // }
+    }
 });
