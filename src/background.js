@@ -29,22 +29,22 @@ chrome.storage.local.get(['onoff', 'onoffTime'], (result) => {
     }
 });
 
-// chrome.storage.onChanged.addListener(function (changes, namespace) {
-//     // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-//     //     console.log(key + ' changed:' + oldValue + ' -> ' + newValue);
-//     // }
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+    //     console.log(key + ' changed:' + oldValue + ' -> ' + newValue);
+    // }
 
-//     console.log(changes);
-//     if (changes.hasOwnProperty('onoff')) {
-//         console.log(changes.onoff.newValue);
-//         if (changes.onoff.newValue) {
-//             postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue });
-//         }
-//         else {
-//             postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue, data: [] });
-//         }
-//     }
-//     // if (changes.hasOwnProperty('data')) {
-//     //     console.log(changes.data.newValue);
-//     // }
-// });
+    console.log(changes);
+    // if (changes.hasOwnProperty('onoff')) {
+    //     console.log(changes.onoff.newValue);
+    //     if (changes.onoff.newValue) {
+    //         postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue });
+    //     }
+    //     else {
+    //         postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue, data: [] });
+    //     }
+    // }
+    // if (changes.hasOwnProperty('data')) {
+    //     console.log(changes.data.newValue);
+    // }
+});
