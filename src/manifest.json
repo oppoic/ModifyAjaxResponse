@@ -34,7 +34,7 @@
     "web_accessible_resources": [
         {
             "resources": [
-                "/dist/main.js"
+                "/dist/pageInjectScript.js"
             ],
             "matches": [
                 "<all_urls>"

@@ -29,12 +29,12 @@ chrome.storage.local.get(['onoff', 'onoffTime'], (result) => {
     }
 });
 
-chrome.storage.onChanged.addListener(function (changes, namespace) {
+    // chrome.storage.onChanged.addListener(function (changes, namespace) {
     // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
     //     console.log(key + ' changed:' + oldValue + ' -> ' + newValue);
     // }
 
-    console.log(changes);
+        // console.log(changes);
     // if (changes.hasOwnProperty('onoff')) {
     //     console.log(changes.onoff.newValue);
     //     if (changes.onoff.newValue) {
@@ -47,4 +47,4 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     // if (changes.hasOwnProperty('data')) {
     //     console.log(changes.data.newValue);
     // }
-});
+    // });
