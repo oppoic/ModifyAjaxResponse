@@ -2,8 +2,8 @@
 $(function () {
     showTable();
 
-    chrome.storage.local.get(['onoff'], function (result) {
-        renderOnOff(result.onoff)
+    chrome.storage.local.get(['on'], function (result) {
+        renderStatus(result.on)
     });
 
     chrome.storage.local.get(null, function (items) {
@@ -106,7 +106,7 @@ $(function () {
     });
 
     $('#iptStatus').on('click', function () {
-        operOnOff($(this).prop('checked'));
+        operStatus($(this).prop('checked'));
     });
 
     $('#btnSave').on('click', function () {
@@ -195,7 +195,7 @@ $(function () {
                     showTip(1);
                     showTable(guidAdd);
                     //first add:open checkbox and show table
-                    operOnOff(true);
+                    operStatus(true);
                     renderDefault(false);
                 });
             }
@@ -234,18 +234,18 @@ function initEditArea() {
     $('#btnSave').attr('class', 'btn btn-primary mt-3').text('Add');
 }
 
-function operOnOff(flag) {
+function operStatus(flag) {
     chrome.storage.local.set({
-        onoff: flag
+        on: flag
     }, function () {
         if (flag) {
-            chrome.storage.local.set({ onoffTime: new Date().toLocaleString() });
+            chrome.storage.local.set({ onTime: new Date().toLocaleString() });
         }
-        renderOnOff(flag);
+        renderStatus(flag);
     });
 }
 
-function renderOnOff(flag) {
+function renderStatus(flag) {
     if (flag) {
         $('#iptStatus').prop("checked", true);
         $('#lblStatus').text('on');

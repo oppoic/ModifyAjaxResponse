@@ -12,14 +12,14 @@ chrome.action.onClicked.addListener(() => {
     });
 });
 
-chrome.storage.local.get(['onoff', 'onoffTime'], (result) => {
-    if (result.hasOwnProperty('onoff') && result.onoff) {
-        if (result.hasOwnProperty('onoffTime')) {
-            var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onoffTime)) / 1000;//second
+chrome.storage.local.get(['on', 'onTime'], (result) => {
+    if (result.hasOwnProperty('on') && result.on) {
+        if (result.hasOwnProperty('onTime')) {
+            var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onTime)) / 1000;//second
             if (dtDiffer > 24 * 60 * 60) {
                 chrome.action.setIcon({ path: "/images/16_gray.png" });
-                if (result.hasOwnProperty('onoff') && result.onoff) {
-                    chrome.storage.local.set({ onoff: false });
+                if (result.hasOwnProperty('on') && result.on) {
+                    chrome.storage.local.set({ on: false });
                 }
             }
         }
@@ -35,13 +35,13 @@ chrome.storage.local.get(['onoff', 'onoffTime'], (result) => {
     // }
 
         // console.log(changes);
-    // if (changes.hasOwnProperty('onoff')) {
-    //     console.log(changes.onoff.newValue);
-    //     if (changes.onoff.newValue) {
-    //         postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue });
+    // if (changes.hasOwnProperty('on')) {
+    //     console.log(changes.on.newValue);
+    //     if (changes.on.newValue) {
+    //         postMessage({ type: 'modify_ajax_response_change', on: changes.on.newValue });
     //     }
     //     else {
-    //         postMessage({ type: 'modify_ajax_response_change', onoff: changes.onoff.newValue, data: [] });
+    //         postMessage({ type: 'modify_ajax_response_change', on: changes.on.newValue, data: [] });
     //     }
     // }
     // if (changes.hasOwnProperty('data')) {

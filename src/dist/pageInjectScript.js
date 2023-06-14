@@ -41,7 +41,7 @@ window.addEventListener("message", function (event) {
     var dt = event.data;
     console.log(dt);
     if (dt.type === 'modify_ajax_response_init') {
-        if (dt.onoff && dt.data.length > 0) {
+        if (dt.on && dt.data.length > 0) {
             var arrRules = [];
             dt.data.forEach((element) => {
                 if (element.status) {
