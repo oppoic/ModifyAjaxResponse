@@ -39,8 +39,9 @@ window.intercept_ajax = intercept_ajax;
 
 window.addEventListener("message", function (event) {
     var dt = event.data;
-    console.log(dt);
+    //console.log(dt);
     if (dt.type === 'modify_ajax_response_init') {
+        console.log(dt);
         if (dt.on && dt.data.length > 0) {
             var arrRules = [];
             dt.data.forEach((element) => {
@@ -59,7 +60,8 @@ window.addEventListener("message", function (event) {
             }
         }
     }
-    else if (dt.type === 'modify_ajax_response_change') {
+    else if (dt.type === 'modify_ajax_response_datachange') {
+        console.log(dt);
 
     }
 });
