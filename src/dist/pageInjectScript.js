@@ -61,6 +61,5 @@ window.addEventListener("message", function (event) {
     }
     else if (dt.type === 'modify_ajax_response_datachange') {
         console.log(dt);
-
     }
 });
