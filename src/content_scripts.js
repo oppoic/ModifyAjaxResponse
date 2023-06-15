@@ -19,10 +19,25 @@ script.addEventListener('load', () => {
     });
 });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    console.log(sender.tab);
-    console.log(sender.tab.url);
-    if (request.type == 'modify_ajax_response_datachange') {
-        postMessage({ type: 'modify_ajax_response_datachange' });
-    }
-});
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//     console.log(sender.tab);
+//     console.log(sender.tab.url);
+//     // if (request.type == 'modify_ajax_response_datachange') {
+//     //     postMessage({ type: 'modify_ajax_response_datachange' });
+//     // }
+// });
+
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//     console.log(request);
+// });
+
+
+// function logMessage(message) {
+//     console.log("Message from background: ", message)
+// }
+
+// chrome.runtime.onMessage.addListener(
+//     (request, sender, sendResponse) => {
+//         logMessage(request.hostname)
+//     }
+// );

@@ -39,7 +39,6 @@ window.intercept_ajax = intercept_ajax;
 
 window.addEventListener("message", function (event) {
     var dt = event.data;
-    //console.log(dt);
     if (dt.type === 'modify_ajax_response_init') {
         console.log(dt);
         if (dt.on && dt.data.length > 0) {

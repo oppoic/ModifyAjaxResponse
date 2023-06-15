@@ -11,11 +11,11 @@ $(function () {
     });
 
     $('#btnImport').on('click', function () {
-        showTip(2, 'Import building...');
+        showTip(2, 'building...');
     });
 
     $('#btnExport').on('click', function () {
-        showTip(2, 'Export building...');
+        showTip(2, 'building...');
     });
 
     $('#btnClear').on('click', function () {

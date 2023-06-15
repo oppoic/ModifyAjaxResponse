@@ -40,15 +40,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     console.log('background addListener 3');
-    console.log(changes);
+    if (changes.hasOwnProperty('on'))
+        console.log(changes.on.newValue);
+    if (changes.hasOwnProperty('onTime'))
+        console.log(changes.onTime.newValue);
+    if (changes.hasOwnProperty('data'))
+        console.log(changes.data.newValue);
 
+    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    //     chrome.tabs.sendMessage(tabs[0].id, { from: 'background发出的消息1', to: 'content_scripts发出的消息2' });
+    // });
 
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        console.log(tabs.length);
-        console.log(tabs[0].id);
+    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    //     console.log(tabs.length);
+    //     console.log(tabs[0].id);
 
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'modify_ajax_response_datachange' });
-    });
+    //     chrome.tabs.sendMessage(tabs[0].id, { type: 'modify_ajax_response_datachange' });
+    // });
 
     // if (changes.hasOwnProperty('on')) {
     //     console.log(changes.on.newValue);
@@ -63,3 +71,16 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     //     console.log(changes.data.newValue);
     // }
 });
+
+// function sendMessage(tabId, hostname) {
+//     console.log("Sending message to tabId: ", tabId)
+//     chrome.tabs.sendMessage(tabId, { hostname: hostname }, (resp) => { console.log("response: ", resp) });
+// }
+
+// chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+//     if (changeInfo.url) {
+//         console.log(changeInfo.url)
+//         var hostname = new URL(changeInfo.url).hostname;
+//         sendMessage(tabId, hostname)
+//     }
+// });
