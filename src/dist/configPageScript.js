@@ -19,12 +19,20 @@ $(function () {
     });
 
     $('#btnClear').on('click', function () {
-        if (confirm('delete all?')) {
-            chrome.storage.local.set({ data: [] }, function () {
-                $('#formArea').hide();
-                showTable();
-            });
-        }
+        $.confirm({
+            title: 'Confirm',
+            type: 'red',
+            content: 'Delete ALL',
+            buttons: {
+                Delete: function () {
+                    chrome.storage.local.set({ data: [] }, function () {
+                        $('#formArea').hide();
+                        showTable();
+                    });
+                },
+                Cancel: function () { }
+            }
+        });
     });
 
     $('#btnAdd').on('click', function () {
@@ -86,22 +94,31 @@ $(function () {
     });
 
     $('#tblContent').on('click', 'tr button', function (event) {
-        if (confirm('delete this?')) {
-            var dtGuid = $(this).closest('tr').attr('data-label');
-            var arrayData = [];
+        var currentTR = $(this).closest('tr');
+        $.confirm({
+            title: 'Delete',
+            content: currentTR.find('td:eq(2)').text(),
+            type: 'orange',
+            buttons: {
+                Delete: function () {
+                    var dtGuid = currentTR.attr('data-label');
+                    var arrayData = [];
 
-            chrome.storage.local.get(['data'], function (result) {
-                $.each(result.data, function (i, v) {
-                    if (v.guid !== dtGuid) {
-                        arrayData.push(v);
-                    }
-                });
-                chrome.storage.local.set({ data: arrayData }, function () {
-                    $('#formArea').hide();
-                    showTable();
-                });
-            });
-        }
+                    chrome.storage.local.get(['data'], function (result) {
+                        $.each(result.data, function (i, v) {
+                            if (v.guid !== dtGuid) {
+                                arrayData.push(v);
+                            }
+                        });
+                        chrome.storage.local.set({ data: arrayData }, function () {
+                            $('#formArea').hide();
+                            showTable();
+                        });
+                    });
+                },
+                Cancel: function () { }
+            }
+        });
         event.stopPropagation();
     });
 
