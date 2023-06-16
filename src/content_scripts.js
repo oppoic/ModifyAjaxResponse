@@ -12,7 +12,7 @@ script.addEventListener('load', () => {
                 chrome.runtime.sendMessage({ type: "modify_ajax_response_seticon" });
             }
             else {
-                postMessage({ type: 'modify_ajax_response_init', on: result.on, data: result.data });
+                postMessage({ type: 'modify_ajax_response_init', data: result.data });
             }
         }
     });

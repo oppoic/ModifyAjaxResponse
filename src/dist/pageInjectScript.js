@@ -1,8 +1,6 @@
 var ajax_open_original = XMLHttpRequest.prototype.open;
-var cacheRules = [];
 
 function intercept_ajax(rules) {
-    cacheRules = cacheRules.concat(rules);
     XMLHttpRequest.prototype.open = function () {
         var open_arguments = arguments;
         var method = open_arguments[0].toLowerCase(),
@@ -10,8 +8,8 @@ function intercept_ajax(rules) {
 
         var flag = false;
         var callback = function () { };
-        for (let i = 0, len = cacheRules.length; i < len; i++) {
-            var curRule = cacheRules[i];
+        for (let i = 0, len = rules.length; i < len; i++) {
+            var curRule = rules[i];
             //console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
             // if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
             if (method == curRule.method && url.indexOf(curRule.pattern) > -1) {
@@ -40,26 +38,30 @@ window.intercept_ajax = intercept_ajax;
 window.addEventListener("message", function (event) {
     var dt = event.data;
     if (dt.type === 'modify_ajax_response_init') {
-        console.log(dt);
-        if (dt.on && dt.data.length > 0) {
-            var arrRules = [];
-            dt.data.forEach((element) => {
-                if (element.status) {
-                    arrRules.push({
-                        method: element.method,
-                        pattern: element.pattern,
-                        callback: function () {
-                            return element.response
-                        }
-                    });
-                }
-            });
-            if (arrRules.length > 0) {
-                intercept_ajax(arrRules);
-            }
-        }
+        change_rules(dt);
     }
     else if (dt.type === 'modify_ajax_response_datachange') {
-        console.log(dt);
+        if (dt.on) {
+            change_rules(dt);
+        }
+        else {
+            intercept_ajax([]);
+        }
     }
 });
+
+function change_rules(dt) {
+    var arrRules = [];
+    dt.data.forEach((element) => {
+        if (element.status) {
+            arrRules.push({
+                method: element.method,
+                pattern: element.pattern,
+                callback: function () {
+                    return element.response
+                }
+            });
+        }
+    });
+    intercept_ajax(arrRules);
+}
