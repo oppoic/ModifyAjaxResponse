@@ -10,7 +10,7 @@ function intercept_ajax(rules) {
         var callback = function () { };
         for (let i = 0, len = rules.length; i < len; i++) {
             var curRule = rules[i];
-            //console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
+            // console.log('[Request URL] ' + method + ':' + url + ' [Match Rule] ' + curRule.method + ':' + curRule.pattern);
             // if ((curRule.method ? curRule.method === method : true) && curRule.pattern instanceof RegExp ? curRule.pattern.test(url) : (curRule.pattern === url || url.indexOf(curRule.pattern) > -1)) {
             if (method == curRule.method && url.indexOf(curRule.pattern) > -1) {
                 flag = true;
