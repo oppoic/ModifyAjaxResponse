@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch</title>
+</head>
+
+<body>
+    <div>
+        <p>id:<span id="id"></span></p>
+        <p>title:<span id="title"></span></p>
+        <p>userId:<span id="userId"></span></p>
+        <p>completed:<span id="completed"></span></p>
+    </div>
+    <script type="text/javascript">
+        /* https://zhuanlan.zhihu.com/p/557532887 */
+
+        const originFetch = fetch;
+        window.fetch = async (url, options) => {
+            const response = await originFetch(url, options);
+
+            console.log(response);
+            console.log(originFetch);
+            console.log(options);
+            
+            if (url === 'https://jsonplaceholder.typicode.com/todos/1') {
+                return new Response(JSON.stringify({
+                    "id": 2222,
+                    "title": "22222222",
+                    "userId": 222222222222,
+                    "completed": true
+                }), response);
+            } else {
+                return response;
+            }
+        };
+    </script>
+    <script type="text/javascript">
+        fetch('https://jsonplaceholder.typicode.com/todos/1').then(res => {
+            return res.json()
+        }).then(data => {
+            document.getElementById('id').innerHTML = data.id;
+            document.getElementById('title').innerHTML = data.title;
+            document.getElementById('userId').innerHTML = data.userId;
+            document.getElementById('completed').innerHTML = data.completed;
+        });
+    </script>
+</body>
+
+</html>

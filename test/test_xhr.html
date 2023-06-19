@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XMLHttpRequest</title>
+    <title>xhr</title>
 </head>
 
 <body>
@@ -17,7 +17,6 @@
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script type="text/javascript">
-
         /* https://www.jianshu.com/p/34be441f2067 */
 
         var ajax_open_original = XMLHttpRequest.prototype.open;
@@ -56,13 +55,12 @@
         };
         window.intercept_ajax = intercept_ajax;
 
-        //触发
         intercept_ajax([
             {
                 method: 'get',
-                pattern: 'https://jsonplaceholder.typicode.com/todos/1',//支持正则或完整url
+                pattern: 'https://jsonplaceholder.typicode.com/todos/1',
                 callback: function () {
-                    return JSON.stringify({ id: 123, title: 'title_title_title', userId: 321, completed: true });
+                    return JSON.stringify({ id: 2222, title: '22222222', userId: 222222222222, completed: true });
                 }
             }
         ]);
