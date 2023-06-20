@@ -34,7 +34,7 @@ function intercept_ajax(rules) {
 var originFetch = fetch;
 function intercept_fetch(rules) {
     window.fetch = async (url, options) => {
-        var method = typeof (options) == "undefined" ? 'get' : options.method.toLowerCase();
+        var method = typeof (options) == "undefined" ? 'get' : (typeof (options.method) == "undefined" || options.method === '' ? 'other' : options.method.toLowerCase());
 
         var flag = false;
         var fetchTxt = '';
