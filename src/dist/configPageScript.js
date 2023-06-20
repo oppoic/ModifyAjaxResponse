@@ -247,7 +247,13 @@ function showTable(activeGuid) {
             });
 
             if (activeGuid) {
-                $('#tblContent tr[data-label="' + activeGuid + '"]').click();
+                var activeTR = $('#tblContent tr[data-label="' + activeGuid + '"]');
+                if (activeTR.length > 0) {
+                    activeTR.click();
+                }
+                else {
+                    showTip(4, 'not exists, please refresh page');
+                }
             }
         }
         else {
