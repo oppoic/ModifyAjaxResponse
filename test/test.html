@@ -5,47 +5,151 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xhr</title>
+    <title>test</title>
 </head>
 
 <body>
     <div>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="button" value="xhr" id="btnxhr">&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="button" value="fetch" id="btnfetch">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="xhr_get" id="xhr_get">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="xhr_post" id="xhr_post">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_get" id="fetch_get">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_post" id="fetch_post">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_put" id="fetch_put">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_patch" id="fetch_patch">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_delete" id="fetch_delete">&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
     <div>
+        <p>type:<span id="type"></span></p>
         <p>id:<span id="id">1</span></p>
         <p>title:<span id="title">2</span></p>
         <p>userId:<span id="userId">3</span></p>
-        <p>completed:<span id="completed">4</span></p>
+        <p>body:<span id="body">4</span></p>
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script type="text/javascript">
 
     </script>
     <script type="text/javascript">
-        $('#btnxhr').on('click', function () {
+        /* xhr */
+        $('#xhr_get').on('click', function () {
             $.ajax({
-                url: 'https://jsonplaceholder.typicode.com/todos/1',
+                url: 'https://jsonplaceholder.typicode.com/posts/1/comments',
                 type: 'GET',
                 success: function (data) {
+                    $('#type').text(data.type);
                     $('#id').text(data.id);
                     $('#title').text(data.title);
                     $('#userId').text(data.userId);
-                    $('#completed').text(data.completed);
+                    $('#body').text(data.body);
                 }
             });
         });
 
-        $('#btnfetch').on('click', function () {
-            fetch('https://jsonplaceholder.typicode.com/posts').then(res => {
+        $('#xhr_post').on('click', function () {
+            $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/posts/1/comments',
+                type: 'POST',
+                dataType: "json",
+                success: function (data) {
+                    $('#type').text(data.type);
+                    $('#id').text(data.id);
+                    $('#title').text(data.title);
+                    $('#userId').text(data.userId);
+                    $('#body').text(data.body);
+                }
+            });
+        });
+
+        /* fetch */
+        $('#fetch_get').on('click', function () {
+            fetch('https://jsonplaceholder.typicode.com/posts/1').then(res => {
                 return res.json()
             }).then(data => {
-                $('#id').text(data[0].id);
-                $('#title').text(data[0].title);
-                $('#userId').text(data[0].userId);
-                $('#completed').text(data[0].body);
+                $('#type').text(data.type);
+                $('#id').text(data.id);
+                $('#title').text(data.title);
+                $('#userId').text(data.userId);
+                $('#body').text(data.body);
+            });
+        });
+
+        $('#fetch_post').on('click', function () {
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }).then(res => {
+                return res.json()
+            }).then(data => {
+                $('#type').text(data.type);
+                $('#id').text(data.id);
+                $('#title').text(data.title);
+                $('#userId').text(data.userId);
+                $('#body').text(data.body);
+            });
+        });
+
+        $('#fetch_put').on('click', function () {
+            fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'PUT',
+                body: JSON.stringify({
+                    id: 1,
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }).then(res => {
+                return res.json()
+            }).then(data => {
+                $('#type').text(data.type);
+                $('#id').text(data.id);
+                $('#title').text(data.title);
+                $('#userId').text(data.userId);
+                $('#body').text(data.body);
+            });
+        });
+
+        $('#fetch_patch').on('click', function () {
+            fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    title: 'foo',
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }).then(res => {
+                return res.json()
+            }).then(data => {
+                $('#type').text(data.type);
+                $('#id').text(data.id);
+                $('#title').text(data.title);
+                $('#userId').text(data.userId);
+                $('#body').text(data.body);
+            });
+        });
+
+        $('#fetch_delete').on('click', function () {
+            fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                method: 'DELETE',
+            }).then(res => {
+                return res.json()
+            }).then(data => {
+                $('#type').text(data.type);
+                $('#id').text(data.id);
+                $('#title').text(data.title);
+                $('#userId').text(data.userId);
+                $('#body').text(data.body);
             });
         });
     </script>

@@ -21,11 +21,6 @@
         const originFetch = fetch;
         window.fetch = async (url, options) => {
             const response = await originFetch(url, options);
-
-            console.log(response);
-            console.log(originFetch);
-            console.log(options);
-            
             if (url === 'https://jsonplaceholder.typicode.com/todos/1') {
                 return new Response(JSON.stringify({
                     "id": 2222,

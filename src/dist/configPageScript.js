@@ -39,6 +39,15 @@ $(function () {
         initEditArea();
         $('#tblContent tr').removeClass('table-active');
         $('#formArea').show();
+
+        chrome.storage.local.get(['data'], function (result) {
+            if (result.hasOwnProperty('data') && result.data.length > 0) {
+                $('#sort').val(result.data[result.data.length - 1].sort + 1);
+            }
+            else {
+                $('#sort').val(1);
+            }
+        });
     });
 
     $('#tblContent').on('click', 'tr', function () {
@@ -134,6 +143,11 @@ $(function () {
             $('#sort').focus();
             return false;
         }
+        if (sort.length > 9) {
+            showTip(4, 'sort too long');
+            $('#sort').focus();
+            return false;
+        }
 
         var method = $.trim($('#method').val());
         if (method === '') {
@@ -167,12 +181,12 @@ $(function () {
                     result.data.push({
                         "guid": guidAdd,
                         "status": true,
-                        "sort": sort,
+                        "sort": parseInt(sort),
                         "method": method,
                         "pattern": pattern,
                         "response": response
                     });
-                    result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
+                    result.data.sort(function (a, b) { return a.sort - b.sort });
                     chrome.storage.local.set({ data: result.data }, function () {
                         showTip(1);
                         showTable(guidAdd);
@@ -182,14 +196,14 @@ $(function () {
                     chrome.storage.local.get(['data'], function (result) {
                         $.each(result.data, function (i, v) {
                             if (v.guid === guidHdd) {
-                                v.sort = sort;
+                                v.sort = parseInt(sort);
                                 v.method = method;
                                 v.pattern = pattern;
                                 v.response = response;
                                 return false;
                             }
                         });
-                        result.data.sort(function (a, b) { return parseFloat(a.sort) - parseFloat(b.sort) });
+                        result.data.sort(function (a, b) { return a.sort - b.sort });
                         chrome.storage.local.set({ data: result.data }, function () {
                             showTip(1);
                             showTable(guidHdd);
@@ -203,7 +217,7 @@ $(function () {
                     data: [{
                         "guid": guidAdd,
                         "status": true,
-                        "sort": sort,
+                        "sort": parseInt(sort),
                         "method": method,
                         "pattern": pattern,
                         "response": response
@@ -225,7 +239,7 @@ function showTable(activeGuid) {
     chrome.storage.local.get(['data'], function (result) {
         if (result.hasOwnProperty('data') && result.data.length > 0) {
             $.each(result.data, function (i, v) {
-                var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td>' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
+                var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td style="word-break: break-all;">' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
                 if (v.status)
                     strHtml += ' checked';
                 strHtml += '></div></td><td><button type="button" class="btn btn-sm btn-link">delete</button></td></tr>';

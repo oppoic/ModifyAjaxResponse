@@ -20,8 +20,8 @@ function intercept_ajax(rules) {
         this.addEventListener('readystatechange', function (event) {
             if (flag && this.readyState === 4) {
                 console.log('[xhr Matched]');
-                console.log('Original Response ' + event.target.responseText);
-                console.log('Modified Response ' + xhrTxt);
+                console.log('[Original Response]' + event.target.responseText);
+                console.log('[Modified Response]' + xhrTxt);
                 Object.defineProperty(this, 'response', { writable: true });
                 Object.defineProperty(this, 'responseText', { writable: true });
                 this.response = this.responseText = xhrTxt;
@@ -31,28 +31,27 @@ function intercept_ajax(rules) {
     };
 };
 
-const originFetch = fetch;
+var originFetch = fetch;
 function intercept_fetch(rules) {
     window.fetch = async (url, options) => {
-        //console.log(options.method);
+        var method = typeof (options) == "undefined" ? 'get' : options.method.toLowerCase();
 
         var flag = false;
         var fetchTxt = '';
         for (let i = 0, len = rules.length; i < len; i++) {
             var curRule = rules[i];
-            //console.log('[fetch] request:' + url + ' pattern:' + curRule.pattern);
-            if (/*options.method.toLowerCase() === curRule.method &&*/ url.indexOf(curRule.pattern) > -1) {
+            //console.log('[fetch] request:' + method + ' ' + url + ' pattern:' + curRule.method + ' ' + curRule.pattern);
+            if (method === curRule.method && url.indexOf(curRule.pattern) > -1) {
                 flag = true;
                 fetchTxt = curRule.response;
                 break;
             }
         }
 
-        const response = await originFetch(url, options);
+        var response = await originFetch(url, options);
         if (flag) {
             console.log('[fetch Matched]');
-            console.log('Original Response ' + options.body);
-            console.log('Modified Response ' + fetchTxt);
+            console.log('[Modified Response]' + fetchTxt);
             return new Response(fetchTxt, response);
         }
         else {
