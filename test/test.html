@@ -169,7 +169,7 @@
 
         $('#xhr_post_content').on('click', function () {
             $.ajax({
-                url: 'https://yjapp.septnet.cn/api/Home/TestPost?str=xhr_post_content_original',
+                url: 'http://craftpip.github.io/jquery-confirm/text.txt',
                 type: 'POST',
                 success: function (data) {
                     alert(data);
@@ -186,7 +186,7 @@
         });
 
         $('#fetch_post_content').on('click', function () {
-            fetch('https://yjapp.septnet.cn/api/Home/TestPost?str=fetch_post_content_original', {
+            fetch('http://craftpip.github.io/jquery-confirm/text.txt', {
                 method: 'POST',
                 body: JSON.stringify({
                     title: 'foo',
