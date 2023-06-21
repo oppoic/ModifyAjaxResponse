@@ -6,10 +6,6 @@ $(function () {
         renderStatus(result.on)
     });
 
-    // chrome.storage.local.get(null, function (items) {
-    //     console.log(items);
-    // });
-
     console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
 
     $('#btnImport').on('click', function () {
@@ -17,8 +13,25 @@ $(function () {
     });
 
     $('#btnExport').on('click', function () {
-        showTip(2, 'building...');
+        chrome.storage.local.get(['data'], function (result) {
+            if (result.hasOwnProperty('data') && result.data.length > 0) {
+                exportFile(result.data, "ModifyAjaxResponse-" + Math.floor(new Date().getTime() / 1000) + ".json");
+            }
+            else {
+                showTip(4, 'nothing to export');
+            }
+        });
     });
+
+    function exportFile(data, fileName) {
+        var a = document.createElement("a");
+        var json = JSON.stringify(data);
+        var blob = new Blob([json], { type: "octet/stream" });
+        var url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+    }
 
     $('#btnClear').on('click', function () {
         $.confirm({
