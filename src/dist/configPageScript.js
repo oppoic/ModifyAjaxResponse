@@ -9,7 +9,24 @@ $(function () {
     console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
 
     $('#btnImport').on('click', function () {
-        showTip(2, 'building...');
+        $.confirm({
+            title: 'Import',
+            content: '<textarea id="txtaImport" style="width: 100%;resize:none;" rows="20" placeholder="paste json here"></textarea>',
+            columnClass: 'large',
+            closeIcon: true,
+            buttons: {
+                OK: function () {
+                    var str = $.trim($('#txtaImport').val());
+                    if (str === '') {
+                        showTip(4, "can't be empty");
+                        $('#txtaImport').focus();
+                        return false;
+                    }
+
+                    console.log(str);
+                }
+            }
+        });
     });
 
     $('#btnExport').on('click', function () {
@@ -18,6 +35,7 @@ $(function () {
             content: 'Export all to json file?',
             type: 'blue',
             backgroundDismiss: true,
+            closeIcon: true,
             buttons: {
                 Export: function () {
                     chrome.storage.local.get(['data'], function (result) {
@@ -28,8 +46,7 @@ $(function () {
                             showTip(4, 'nothing to export');
                         }
                     });
-                },
-                Cancel: function () { }
+                }
             }
         });
     });
@@ -50,14 +67,14 @@ $(function () {
             type: 'red',
             content: 'Delete ALL?',
             backgroundDismiss: true,
+            closeIcon: true,
             buttons: {
                 Delete: function () {
                     chrome.storage.local.set({ data: [] }, function () {
                         $('#formArea').hide();
                         showTable();
                     });
-                },
-                Cancel: function () { }
+                }
             }
         });
     });
@@ -136,6 +153,7 @@ $(function () {
             content: currentTR.find('td:eq(2)').text(),
             type: 'orange',
             backgroundDismiss: true,
+            closeIcon: true,
             buttons: {
                 Delete: function () {
                     var dtGuid = currentTR.attr('data-label');
@@ -152,8 +170,7 @@ $(function () {
                             showTable();
                         });
                     });
-                },
-                Cancel: function () { }
+                }
             }
         });
         event.stopPropagation();
@@ -179,20 +196,20 @@ $(function () {
 
         var method = $.trim($('#method').val());
         if (method === '') {
-            showTip(4, 'method cannot be empty');
+            showTip(4, "method can't be empty");
             return false;
         }
 
         var pattern = $.trim($('#pattern').val());
         if (pattern === '') {
-            showTip(4, 'pattern cannot be empty');
+            showTip(4, "pattern can't be empty");
             $('#pattern').focus();
             return false;
         }
 
         var response = $.trim($('#response').val());
         if (response === '') {
-            showTip(4, 'response cannot be empty');
+            showTip(4, "response can't be empty");
             $('#response').focus();
             return false;
         }
