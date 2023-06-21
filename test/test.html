@@ -159,7 +159,7 @@
         /* content */
         $('#xhr_get_content').on('click', function () {
             $.ajax({
-                url: 'https://yjapp.septnet.cn/api/Home/TestGet?str=xhr_get_content_original',
+                url: 'http://craftpip.github.io/jquery-confirm/text.txt',
                 type: 'GET',
                 success: function (data) {
                     alert(data);
@@ -178,7 +178,7 @@
         });
 
         $('#fetch_get_content').on('click', function () {
-            fetch('https://yjapp.septnet.cn/api/Home/TestGet?str=fetch_get_content_original').then(res => {
+            fetch('http://craftpip.github.io/jquery-confirm/text.txt').then(res => {
                 return res.text()
             }).then(data => {
                 alert(data);

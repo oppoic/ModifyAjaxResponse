@@ -15,8 +15,9 @@ $(function () {
     $('#btnExport').on('click', function () {
         $.confirm({
             title: 'Confirm',
-            content: 'Export all to files?',
-            type: 'green',
+            content: 'Export all to json file?',
+            type: 'blue',
+            backgroundDismiss: true,
             buttons: {
                 Export: function () {
                     chrome.storage.local.get(['data'], function (result) {
@@ -48,6 +49,7 @@ $(function () {
             title: 'Confirm',
             type: 'red',
             content: 'Delete ALL?',
+            backgroundDismiss: true,
             buttons: {
                 Delete: function () {
                     chrome.storage.local.set({ data: [] }, function () {
@@ -133,6 +135,7 @@ $(function () {
             title: 'Delete',
             content: currentTR.find('td:eq(2)').text(),
             type: 'orange',
+            backgroundDismiss: true,
             buttons: {
                 Delete: function () {
                     var dtGuid = currentTR.attr('data-label');
