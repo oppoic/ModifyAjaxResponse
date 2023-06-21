@@ -13,12 +13,22 @@ $(function () {
     });
 
     $('#btnExport').on('click', function () {
-        chrome.storage.local.get(['data'], function (result) {
-            if (result.hasOwnProperty('data') && result.data.length > 0) {
-                exportFile(result.data, "ModifyAjaxResponse-" + Math.floor(new Date().getTime() / 1000) + ".json");
-            }
-            else {
-                showTip(4, 'nothing to export');
+        $.confirm({
+            title: 'Confirm',
+            content: 'Export all to files?',
+            type: 'green',
+            buttons: {
+                Export: function () {
+                    chrome.storage.local.get(['data'], function (result) {
+                        if (result.hasOwnProperty('data') && result.data.length > 0) {
+                            exportFile(result.data, "ModifyAjaxResponse-" + Math.floor(new Date().getTime() / 1000) + ".json");
+                        }
+                        else {
+                            showTip(4, 'nothing to export');
+                        }
+                    });
+                },
+                Cancel: function () { }
             }
         });
     });
@@ -37,7 +47,7 @@ $(function () {
         $.confirm({
             title: 'Confirm',
             type: 'red',
-            content: 'Delete ALL',
+            content: 'Delete ALL?',
             buttons: {
                 Delete: function () {
                     chrome.storage.local.set({ data: [] }, function () {
