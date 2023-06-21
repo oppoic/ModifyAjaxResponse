@@ -6,9 +6,11 @@ $(function () {
         renderStatus(result.on)
     });
 
-    chrome.storage.local.get(null, function (items) {
-        console.log(items);
-    });
+    // chrome.storage.local.get(null, function (items) {
+    //     console.log(items);
+    // });
+
+    console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
 
     $('#btnImport').on('click', function () {
         showTip(2, 'building...');
@@ -175,6 +177,10 @@ $(function () {
                 if (guidHdd === '') {//add
                     if (result.data.length == 0) {
                         renderDefault(false);
+                    }
+                    if (result.data.length > 99) {
+                        showTip(3, 'max 100, please delete some');
+                        return;
                     }
 
                     var guidAdd = uuidv4();
