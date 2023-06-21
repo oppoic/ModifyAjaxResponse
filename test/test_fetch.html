@@ -16,8 +16,6 @@
         <p>completed:<span id="completed"></span></p>
     </div>
     <script type="text/javascript">
-        /* https://zhuanlan.zhihu.com/p/557532887 */
-
         const originFetch = fetch;
         window.fetch = async (url, options) => {
             const response = await originFetch(url, options);

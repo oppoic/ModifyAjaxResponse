@@ -17,8 +17,6 @@
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script type="text/javascript">
-        /* https://www.jianshu.com/p/34be441f2067 */
-
         var ajax_open_original = XMLHttpRequest.prototype.open;
         var cacheRules = [];
 
@@ -43,8 +41,8 @@
                 this.addEventListener('readystatechange', function (event) {
                     if (flag && this.readyState === 4) {
                         var response = callback(event.target.responseText);
-                        console.log('修改前：' + event.target.responseText);
-                        console.log('修改后：' + response);
+                        console.log('[Original Response]' + event.target.responseText);
+                        console.log('[Modified Response]' + response);
                         Object.defineProperty(this, 'response', { writable: true });
                         Object.defineProperty(this, 'responseText', { writable: true });
                         this.response = this.responseText = response;

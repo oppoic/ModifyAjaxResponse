@@ -18,6 +18,12 @@
         <input type="button" value="fetch_put" id="fetch_put">&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="button" value="fetch_patch" id="fetch_patch">&nbsp;&nbsp;&nbsp;&nbsp;
         <input type="button" value="fetch_delete" id="fetch_delete">&nbsp;&nbsp;&nbsp;&nbsp;
+        <hr />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="xhr_get_content(not json)" id="xhr_get_content">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="xhr_post_content(not json)" id="xhr_post_content">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_get_content(not json)" id="fetch_get_content">&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="fetch_post_content(not json)" id="fetch_post_content">&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
     <div>
         <p>type:<span id="type"></span></p>
@@ -27,9 +33,6 @@
         <p>body:<span id="body">4</span></p>
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-    <script type="text/javascript">
-
-    </script>
     <script type="text/javascript">
         /* xhr */
         $('#xhr_get').on('click', function () {
@@ -150,6 +153,53 @@
                 $('#title').text(data.title);
                 $('#userId').text(data.userId);
                 $('#body').text(data.body);
+            });
+        });
+
+        /* content */
+        $('#xhr_get_content').on('click', function () {
+            $.ajax({
+                url: 'https://yjapp.septnet.cn/api/Home/TestGet?str=xhr_get_content_original',
+                type: 'GET',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+
+        $('#xhr_post_content').on('click', function () {
+            $.ajax({
+                url: 'https://yjapp.septnet.cn/api/Home/TestPost?str=xhr_post_content_original',
+                type: 'POST',
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        });
+
+        $('#fetch_get_content').on('click', function () {
+            fetch('https://yjapp.septnet.cn/api/Home/TestGet?str=fetch_get_content_original').then(res => {
+                return res.text()
+            }).then(data => {
+                alert(data);
+            });
+        });
+
+        $('#fetch_post_content').on('click', function () {
+            fetch('https://yjapp.septnet.cn/api/Home/TestPost?str=fetch_post_content_original', {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }),
+                headers: {
+                    'Content-type': 'text/plain; charset=UTF-8',
+                },
+            }).then(res => {
+                return res.text()
+            }).then(data => {
+                alert(data);
             });
         });
     </script>
