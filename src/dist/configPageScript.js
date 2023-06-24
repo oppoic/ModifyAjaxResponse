@@ -23,7 +23,23 @@ $(function () {
                         return false;
                     }
 
-                    console.log(str);
+                    try {
+                        var jsArray = $.parseJSON(str);
+                        $.each(jsArray, function (i, v) {
+                            if (v.hasOwnProperty('method') && v.hasOwnProperty('pattern') && v.hasOwnProperty('response') && v.hasOwnProperty('sort') && v.hasOwnProperty('status')) {
+
+                            }
+                            else {
+                                console.log(v);
+                            }
+                        });
+
+                        return false;
+                    }
+                    catch (err) {
+                        showTip(4, err);
+                        return false;
+                    }
                 }
             }
         });
