@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+
+<body>
+    <div style="margin-left: 20px;margin-top: 20px;">
+        <input type="button" value="get_data" id="xhr_get">
+    </div>
+    <div style="margin-left: 30px;margin-top: 40px;">
+        <p>id -> <span id="id"></span></p>
+        <p>title -> <span id="title"></span></p>
+        <p>userId -> <span id="userId"></span></p>
+        <p>body -> <span id="body"></span></p>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script type="text/javascript">
+        $('#xhr_get').on('click', function () {
+            $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/posts/1',
+                type: 'GET',
+                success: function (data) {
+                    $('#id').text(data.id);
+                    $('#title').text(data.title);
+                    $('#userId').text(data.userId);
+                    $('#body').text(data.body);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
