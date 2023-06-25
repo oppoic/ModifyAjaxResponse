@@ -2,11 +2,11 @@
 $(function () {
     showTable();
 
+    console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
+
     chrome.storage.local.get(['on'], function (result) {
         renderStatus(result.on)
     });
-
-    console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
 
     $('#btnImport').on('click', function () {
         $.confirm({
@@ -24,51 +24,46 @@ $(function () {
                     }
 
                     try {
-                        var jsArrayTotal = [];
                         chrome.storage.local.get(['data'], function (result) {
+                            var jsArrayTotal = [];
                             if (result.hasOwnProperty('data') && result.data.length > 0) {
                                 jsArrayTotal = result.data;
                             }
-                        });
 
-                        var jsArray = $.parseJSON(str);
-                        if (jsArrayTotal.length + jsArray.length > 100) {
-                            showTip(3, 'max 100, please delete some');
-                            return false;
-                        }
-                        var successCount = 0;
-                        $.each(jsArray, function (i, v) {
-                            var method = $.trim(v.method);
-                            var pattern = $.trim(v.pattern);
-                            var response = $.trim(v.response);
-                            var sort = $.trim(v.sort);
-                            var status = $.trim(v.status);
-                            if (v.hasOwnProperty('method')
-                                && v.hasOwnProperty('pattern')
-                                && v.hasOwnProperty('response')
-                                && v.hasOwnProperty('sort')
-                                && v.hasOwnProperty('status')
-                                && verifyMethod(method)
-                                && verifyPattern(pattern)
-                                && verifyResponse(response)
-                                && verifySort(sort)
-                                && verifyStatus(status)) {
-                                successCount++;
-                                jsArrayTotal.push({
-                                    "guid": uuidv4(),
-                                    "status": status,
-                                    "sort": parseInt(sort),
-                                    "method": method,
-                                    "pattern": pattern,
-                                    "response": response
-                                });
+                            var jsArray = $.parseJSON(str);
+                            if (jsArrayTotal.length + jsArray.length > 100) {
+                                showTip(4, 'max 100, please delete some');
+                                return false;
                             }
-                        });
-                        jsArrayTotal.sort(function (a, b) { return a.sort - b.sort });
-                        chrome.storage.local.set({ data: jsArrayTotal }, function () {
-                            showTip(1, 'import:' + successCount + ',total:' + jsArrayTotal.length);
-                            $('#formArea').hide();
-                            showTable();
+
+                            var successCount = 0;
+                            $.each(jsArray, function (i, v) {
+                                if (v.hasOwnProperty('method') && v.hasOwnProperty('pattern') && v.hasOwnProperty('response') && v.hasOwnProperty('sort') && v.hasOwnProperty('status')) {
+                                    var method = $.trim(v.method);
+                                    var pattern = $.trim(v.pattern);
+                                    var response = $.trim(v.response);
+                                    var sort = $.trim(v.sort);
+                                    //var status = $.trim(v.status);
+                                    if (verifyMethod(method) && verifyPattern(pattern) && verifyResponse(response) && verifySort(sort) && verifyStatus(v.status)) {
+                                        successCount++;
+                                        jsArrayTotal.push({
+                                            "guid": uuidv4(),
+                                            "status": v.status,
+                                            "sort": parseInt(sort),
+                                            "method": method,
+                                            "pattern": pattern,
+                                            "response": response
+                                        });
+                                    }
+                                }
+                            });
+
+                            jsArrayTotal.sort(function (a, b) { return a.sort - b.sort });
+                            chrome.storage.local.set({ data: jsArrayTotal }, function () {
+                                $('#formArea').hide();
+                                showTable();
+                                $.dialog('import count:' + successCount + ', total count:' + jsArrayTotal.length);
+                            });
                         });
                     }
                     catch (err) {
@@ -263,11 +258,8 @@ $(function () {
         chrome.storage.local.get(['data'], function (result) {
             if (result.hasOwnProperty('data')) {
                 if (guidHdd === '') {//add
-                    if (result.data.length == 0) {
-                        renderDefault(false);
-                    }
                     if (result.data.length > 99) {
-                        showTip(3, 'max 100, please delete some');
+                        showTip(4, 'max 100, please delete some');
                         return;
                     }
 
@@ -321,7 +313,6 @@ $(function () {
                     showTable(guidAdd);
                     //first add:open checkbox and show table
                     operStatus(true);
-                    renderDefault(false);
                 });
             }
         });
@@ -332,6 +323,7 @@ function showTable(activeGuid) {
     $('#tblContent').empty();
     chrome.storage.local.get(['data'], function (result) {
         if (result.hasOwnProperty('data') && result.data.length > 0) {
+            renderDefault(false);
             $.each(result.data, function (i, v) {
                 var strHtml = '<tr data-label="' + v.guid + '"><td>' + v.sort + '</td><td>' + v.method + '</td><td style="word-break: break-all;">' + v.pattern + '</td><td><div class="form-check form-switch"><input class="form-check-input" type="checkbox"';
                 if (v.status)
