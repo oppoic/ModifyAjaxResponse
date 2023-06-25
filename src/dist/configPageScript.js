@@ -11,7 +11,7 @@ $(function () {
     $('#btnImport').on('click', function () {
         $.confirm({
             title: 'Import',
-            content: '<textarea id="txtaImport" style="width: 100%;resize:none;" rows="20" placeholder="paste json here"></textarea>',
+            content: '<textarea id="txtaImport" style="width: 100%;resize:none;" rows="20" placeholder="paste import json here"></textarea>',
             columnClass: 'large',
             closeIcon: true,
             buttons: {
@@ -24,17 +24,52 @@ $(function () {
                     }
 
                     try {
-                        var jsArray = $.parseJSON(str);
-                        $.each(jsArray, function (i, v) {
-                            if (v.hasOwnProperty('method') && v.hasOwnProperty('pattern') && v.hasOwnProperty('response') && v.hasOwnProperty('sort') && v.hasOwnProperty('status')) {
-
-                            }
-                            else {
-                                console.log(v);
+                        var jsArrayTotal = [];
+                        chrome.storage.local.get(['data'], function (result) {
+                            if (result.hasOwnProperty('data') && result.data.length > 0) {
+                                jsArrayTotal = result.data;
                             }
                         });
 
-                        return false;
+                        var jsArray = $.parseJSON(str);
+                        if (jsArrayTotal.length + jsArray.length > 100) {
+                            showTip(3, 'max 100, please delete some');
+                            return false;
+                        }
+                        var successCount = 0;
+                        $.each(jsArray, function (i, v) {
+                            var method = $.trim(v.method);
+                            var pattern = $.trim(v.pattern);
+                            var response = $.trim(v.response);
+                            var sort = $.trim(v.sort);
+                            var status = $.trim(v.status);
+                            if (v.hasOwnProperty('method')
+                                && v.hasOwnProperty('pattern')
+                                && v.hasOwnProperty('response')
+                                && v.hasOwnProperty('sort')
+                                && v.hasOwnProperty('status')
+                                && verifyMethod(method)
+                                && verifyPattern(pattern)
+                                && verifyResponse(response)
+                                && verifySort(sort)
+                                && verifyStatus(status)) {
+                                successCount++;
+                                jsArrayTotal.push({
+                                    "guid": uuidv4(),
+                                    "status": status,
+                                    "sort": parseInt(sort),
+                                    "method": method,
+                                    "pattern": pattern,
+                                    "response": response
+                                });
+                            }
+                        });
+                        jsArrayTotal.sort(function (a, b) { return a.sort - b.sort });
+                        chrome.storage.local.set({ data: jsArrayTotal }, function () {
+                            showTip(1, 'import:' + successCount + ',total:' + jsArrayTotal.length);
+                            $('#formArea').hide();
+                            showTable();
+                        });
                     }
                     catch (err) {
                         showTip(4, err);
@@ -198,33 +233,27 @@ $(function () {
 
     $('#btnSave').on('click', function () {
         var sort = $.trim($('#sort').val());
-        var reg = /^[0-9]+$/;
-        if (sort === '' || !reg.test(sort)) {
-            showTip(4, 'sort must be integer');
-            $('#sort').focus();
-            return false;
-        }
-        if (sort.length > 9) {
-            showTip(4, 'sort too long');
+        if (!verifySort(sort)) {
+            showTip(4, 'sort must be integer and below 1,000,000,000');
             $('#sort').focus();
             return false;
         }
 
         var method = $.trim($('#method').val());
-        if (method === '') {
-            showTip(4, "method can't be empty");
+        if (!verifyMethod(method)) {
+            showTip(4, "pls select method");
             return false;
         }
 
         var pattern = $.trim($('#pattern').val());
-        if (pattern === '') {
+        if (!verifyPattern(pattern)) {
             showTip(4, "pattern can't be empty");
             $('#pattern').focus();
             return false;
         }
 
         var response = $.trim($('#response').val());
-        if (response === '') {
+        if (!verifyResponse(response)) {
             showTip(4, "response can't be empty");
             $('#response').focus();
             return false;
@@ -369,6 +398,52 @@ function renderDefault(flag) {
     else {
         $('#tblContent').parent().show();
         $('#cdEmpty').hide();
+    }
+}
+
+function verifyMethod(method) {
+    if (['get', 'post', 'head', 'put', 'patch', 'delete', 'options', 'other'].indexOf(method) === -1) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function verifyPattern(pattern) {
+    if (pattern === '') {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function verifyResponse(response) {
+    if (response === '') {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function verifySort(sort) {
+    var reg = /^[0-9]+$/;
+    if (sort === '' || !reg.test(sort) || sort.length > 9) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function verifyStatus(status) {
+    if (typeof (status) == 'boolean') {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
