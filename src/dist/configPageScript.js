@@ -24,13 +24,13 @@ $(function () {
                     }
 
                     try {
+                        var jsArray = $.parseJSON(str);
                         chrome.storage.local.get(['data'], function (result) {
                             var jsArrayTotal = [];
                             if (result.hasOwnProperty('data') && result.data.length > 0) {
                                 jsArrayTotal = result.data;
                             }
 
-                            var jsArray = $.parseJSON(str);
                             if (jsArrayTotal.length + jsArray.length > 100) {
                                 showTip(4, 'max 100, please delete some');
                                 return false;
@@ -96,16 +96,6 @@ $(function () {
             }
         });
     });
-
-    function exportFile(data, fileName) {
-        var a = document.createElement("a");
-        var json = JSON.stringify(data);
-        var blob = new Blob([json], { type: "octet/stream" });
-        var url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fileName;
-        a.click();
-    }
 
     $('#btnClear').on('click', function () {
         $.confirm({
@@ -311,8 +301,7 @@ $(function () {
                 }, function () {
                     showTip(1);
                     showTable(guidAdd);
-                    //first add:open checkbox and show table
-                    operStatus(true);
+                    operStatus(true);//first add:open checkbox and show table
                 });
             }
         });
@@ -391,6 +380,16 @@ function renderDefault(flag) {
         $('#tblContent').parent().show();
         $('#cdEmpty').hide();
     }
+}
+
+function exportFile(data, fileName) {
+    var a = document.createElement("a");
+    var json = JSON.stringify(data);
+    var blob = new Blob([json], { type: "octet/stream" });
+    var url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
 }
 
 function verifyMethod(method) {
