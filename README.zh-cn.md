@@ -17,7 +17,7 @@ Chrome浏览器插件，修改ajax请求的返回值
 #### 谷歌Chrome应用商店 [点击前往](https://chrome.google.com/webstore/detail/modifyajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia)
 
 #### 开发者模式加载
-1. [下载](https://github.com/oppoic/ModifyAjaxResponse/releases) 最新文件
+1. [下载](https://github.com/oppoic/ModifyAjaxResponse/releases) 最新的 **ModifyAjaxResponse.zip**
 2. 打开Chrome浏览器，地址栏访问：chrome://extensions/
 3. 打开"开发者模式"
 4. 点击"加载已解压的扩展程序"

@@ -17,7 +17,7 @@ This extension only overrides the response data in the XMLHTTPRequest object as 
 #### Chrome Web Store [Click to Redirect](https://chrome.google.com/webstore/detail/modifyajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia)
 
 #### Chrome Extension Developer Mode
-1. [Download](https://github.com/oppoic/ModifyAjaxResponse/releases) newest file
+1. [Download](https://github.com/oppoic/ModifyAjaxResponse/releases) newest **ModifyAjaxResponse.zip**
 2. Open Chrome and go to: chrome://extensions/
 3. Enable "Developer mode"
 4. Click "Load unpacked extension"
