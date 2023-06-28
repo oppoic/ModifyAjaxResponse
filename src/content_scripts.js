@@ -5,14 +5,17 @@ document.documentElement.appendChild(script);
 
 script.addEventListener('load', () => {
     chrome.storage.local.get(['on', 'onTime', 'data'], function (result) {
-        if (result.hasOwnProperty('on') && result.on && result.hasOwnProperty('onTime') && result.hasOwnProperty('data') && result.data.length > 0) {
+        if (result.hasOwnProperty('on') && result.on && result.hasOwnProperty('onTime')) {
             var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onTime)) / 1000;//second
             if (dtDiffer > 24 * 60 * 60) {
-                chrome.storage.local.set({ on: false });
-                chrome.runtime.sendMessage({ type: "modify_ajax_response_seticon" });
+                chrome.storage.local.set({ on: false }).then(() => {
+                    chrome.runtime.sendMessage({ type: "modify_ajax_response_seticon" });
+                });
             }
             else {
-                postMessage({ type: 'modify_ajax_response_init', data: result.data });
+                if (result.hasOwnProperty('data') && result.data.length > 0) {
+                    postMessage({ type: 'modify_ajax_response_init', data: result.data });
+                }
             }
         }
     });

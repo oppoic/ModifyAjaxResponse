@@ -17,8 +17,9 @@ chrome.storage.local.get(['on', 'onTime'], function (result) {
         if (result.hasOwnProperty('onTime')) {
             var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onTime)) / 1000;//second
             if (dtDiffer > 24 * 60 * 60) {
-                chrome.storage.local.set({ on: false });
-                chrome.action.setIcon({ path: "/images/16_gray.png" });
+                chrome.storage.local.set({ on: false }).then(() => {
+                    chrome.action.setIcon({ path: "/images/16_gray.png" });
+                });
             }
         }
     }

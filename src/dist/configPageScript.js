@@ -59,7 +59,7 @@ $(function () {
                             });
 
                             jsArrayTotal.sort(function (a, b) { return a.sort - b.sort });
-                            chrome.storage.local.set({ data: jsArrayTotal }, function () {
+                            chrome.storage.local.set({ data: jsArrayTotal }).then(() => {
                                 $('#formArea').hide();
                                 showTable();
                                 $.dialog('import count:' + successCount + ', total count:' + jsArrayTotal.length);
@@ -106,7 +106,7 @@ $(function () {
             closeIcon: true,
             buttons: {
                 Delete: function () {
-                    chrome.storage.local.set({ data: [] }, function () {
+                    chrome.storage.local.set({ data: [] }).then(() => {
                         $('#formArea').hide();
                         showTable();
                     });
@@ -201,7 +201,7 @@ $(function () {
                                 arrayData.push(v);
                             }
                         });
-                        chrome.storage.local.set({ data: arrayData }, function () {
+                        chrome.storage.local.set({ data: arrayData }).then(() => {
                             $('#formArea').hide();
                             showTable();
                         });
@@ -263,7 +263,7 @@ $(function () {
                         "response": response
                     });
                     result.data.sort(function (a, b) { return a.sort - b.sort });
-                    chrome.storage.local.set({ data: result.data }, function () {
+                    chrome.storage.local.set({ data: result.data }).then(() => {
                         showTip(1);
                         showTable(guidAdd);
                     });
@@ -280,7 +280,7 @@ $(function () {
                             }
                         });
                         result.data.sort(function (a, b) { return a.sort - b.sort });
-                        chrome.storage.local.set({ data: result.data }, function () {
+                        chrome.storage.local.set({ data: result.data }).then(() => {
                             showTip(1);
                             showTable(guidHdd);
                         });
@@ -298,7 +298,7 @@ $(function () {
                         "pattern": pattern,
                         "response": response
                     }]
-                }, function () {
+                }).then(() => {
                     showTip(1);
                     showTable(guidAdd);
                     operStatus(true);//first add:open checkbox and show table
@@ -349,7 +349,7 @@ function initEditArea() {
 function operStatus(flag) {
     chrome.storage.local.set({
         on: flag
-    }, function () {
+    }).then(() => {
         if (flag) {
             chrome.storage.local.set({ onTime: new Date().toLocaleString() });
         }
