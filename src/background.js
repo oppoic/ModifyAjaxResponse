@@ -12,7 +12,7 @@ chrome.action.onClicked.addListener(() => {
     });
 });
 
-chrome.storage.local.get(['on', 'onTime'], function (result) {
+chrome.storage.local.get(['on', 'onTime']).then((result) => {
     if (result.hasOwnProperty('on') && result.on) {
         if (result.hasOwnProperty('onTime')) {
             var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onTime)) / 1000;//second

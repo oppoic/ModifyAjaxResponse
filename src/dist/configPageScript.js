@@ -4,7 +4,7 @@ $(function () {
 
     console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
 
-    chrome.storage.local.get(['on'], function (result) {
+    chrome.storage.local.get(['on']).then((result) => {
         renderStatus(result.on)
     });
 
@@ -25,7 +25,7 @@ $(function () {
 
                     try {
                         var jsArray = $.parseJSON(str);
-                        chrome.storage.local.get(['data'], function (result) {
+                        chrome.storage.local.get(['data']).then((result) => {
                             var jsArrayTotal = [];
                             if (result.hasOwnProperty('data') && result.data.length > 0) {
                                 jsArrayTotal = result.data;
@@ -84,7 +84,7 @@ $(function () {
             closeIcon: true,
             buttons: {
                 Export: function () {
-                    chrome.storage.local.get(['data'], function (result) {
+                    chrome.storage.local.get(['data']).then((result) => {
                         if (result.hasOwnProperty('data') && result.data.length > 0) {
                             exportFile(result.data, "ModifyAjaxResponse-" + Math.floor(new Date().getTime() / 1000) + ".json");
                         }
@@ -120,7 +120,7 @@ $(function () {
         $('#tblContent tr').removeClass('table-active');
         $('#formArea').show();
 
-        chrome.storage.local.get(['data'], function (result) {
+        chrome.storage.local.get(['data']).then((result) => {
             if (result.hasOwnProperty('data') && result.data.length > 0) {
                 $('#sort').val(result.data[result.data.length - 1].sort + 1);
             }
@@ -135,7 +135,7 @@ $(function () {
 
         var dtGuid = $(this).attr('data-label');
         var isExist = false;
-        chrome.storage.local.get(['data'], function (result) {
+        chrome.storage.local.get(['data']).then((result) => {
             $.each(result.data, function (i, v) {
                 if (v.guid === dtGuid) {
                     isExist = true;
@@ -163,7 +163,7 @@ $(function () {
         var dtStatus = $(this).prop('checked');
 
         var isExist = false;
-        chrome.storage.local.get(['data'], function (result) {
+        chrome.storage.local.get(['data']).then((result) => {
             $.each(result.data, function (i, v) {
                 if (v.guid === dtGuid) {
                     isExist = true;
@@ -195,7 +195,7 @@ $(function () {
                     var dtGuid = currentTR.attr('data-label');
                     var arrayData = [];
 
-                    chrome.storage.local.get(['data'], function (result) {
+                    chrome.storage.local.get(['data']).then((result) => {
                         $.each(result.data, function (i, v) {
                             if (v.guid !== dtGuid) {
                                 arrayData.push(v);
@@ -245,7 +245,7 @@ $(function () {
         }
 
         var guidHdd = $('#guidHidden').val();
-        chrome.storage.local.get(['data'], function (result) {
+        chrome.storage.local.get(['data']).then((result) => {
             if (result.hasOwnProperty('data')) {
                 if (guidHdd === '') {//add
                     if (result.data.length > 99) {
@@ -269,7 +269,7 @@ $(function () {
                     });
                 }
                 else {//edit
-                    chrome.storage.local.get(['data'], function (result) {
+                    chrome.storage.local.get(['data']).then((result) => {
                         $.each(result.data, function (i, v) {
                             if (v.guid === guidHdd) {
                                 v.sort = parseInt(sort);
@@ -310,7 +310,7 @@ $(function () {
 
 function showTable(activeGuid) {
     $('#tblContent').empty();
-    chrome.storage.local.get(['data'], function (result) {
+    chrome.storage.local.get(['data']).then((result) => {
         if (result.hasOwnProperty('data') && result.data.length > 0) {
             renderDefault(false);
             $.each(result.data, function (i, v) {

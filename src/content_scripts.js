@@ -4,7 +4,7 @@ script.setAttribute('src', chrome.runtime.getURL('dist/pageInjectScript.js'));
 document.documentElement.appendChild(script);
 
 script.addEventListener('load', () => {
-    chrome.storage.local.get(['on', 'onTime', 'data'], function (result) {
+    chrome.storage.local.get(['on', 'onTime', 'data']).then((result) => {
         if (result.hasOwnProperty('on') && result.on && result.hasOwnProperty('onTime')) {
             var dtDiffer = parseInt(new Date(new Date().toLocaleString()) - new Date(result.onTime)) / 1000;//second
             if (dtDiffer > 24 * 60 * 60) {
@@ -21,8 +21,8 @@ script.addEventListener('load', () => {
     });
 });
 
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-    chrome.storage.local.get(['on', 'data'], function (result) {
+chrome.storage.onChanged.addListener(function (changes) {
+    chrome.storage.local.get(['on', 'data']).then((result) => {
         if (changes.hasOwnProperty('on')) {
             postMessage({ type: 'modify_ajax_response_datachange', on: changes.on.newValue, data: result.data });
         }
