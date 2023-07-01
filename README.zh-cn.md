@@ -8,7 +8,7 @@
 ## 简介
 Chrome浏览器插件，修改ajax请求的返回值
 
-重写xhr和fetch方法的返回实体，F12开发者工具-网络面板里的返回值不会变
+仅重写xhr和fetch方法的返回实体，F12开发者工具-网络面板里的返回值不会变
 
 ## 预览
 ![预览](/show/ModifyAjaxResponse.gif)

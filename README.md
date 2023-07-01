@@ -8,7 +8,7 @@
 ## Description
 Chrome Extension, Modify response text of ajax requests
 
-This extension only overrides the response data in the XMLHTTPRequest object as well as the fetch method. The "real" response which you can see in DevTools "Network" panel will not be modified.
+This extension only overrides the response data in the XMLHTTPRequest object as well as the fetch method. The real response which you can see in DevTools Network panel will not be modified
 
 ## Preview
 ![Preview](/show/ModifyAjaxResponse.gif)
