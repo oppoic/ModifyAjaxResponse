@@ -63,30 +63,31 @@ function intercept_fetch(rules) {
 window.addEventListener("message", function (event) {
     var dt = event.data;
     if (dt.type === 'modify_ajax_response_init') {
-        change_rules(dt);
+        change_rules(dt.data);
     }
     else if (dt.type === 'modify_ajax_response_datachange') {
         if (dt.on) {
-            change_rules(dt);
+            change_rules(dt.data);
         }
         else {
-            intercept_ajax([]);
-            intercept_fetch([]);
+            change_rules([]);
         }
     }
 });
 
-function change_rules(dt) {
+function change_rules(rules) {
     var arrRules = [];
-    dt.data.forEach((element) => {
-        if (element.status) {
+    rules.forEach((r) => {
+        if (r.status) {
             arrRules.push({
-                method: element.method,
-                pattern: element.pattern,
-                response: element.response
+                method: r.method,
+                pattern: r.pattern,
+                response: r.response
             });
         }
     });
+
+    console.log('inject rules count:' + arrRules.length);
     intercept_ajax(arrRules);
     intercept_fetch(arrRules);
 }

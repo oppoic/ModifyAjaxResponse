@@ -2,8 +2,6 @@
 $(function () {
     showTable();
 
-    console.log('JSONViewer,Format several JSON documents in one window. https://github.com/oppoic/JSONViewer  https://chrome.google.com/webstore/detail/jsonviewer/khbdpaabobknhhlpglenglkkhdmkfnca');
-
     chrome.storage.local.get(['on']).then((result) => {
         renderStatus(result.on)
     });
@@ -264,7 +262,7 @@ $(function () {
                     });
                     result.data.sort(function (a, b) { return a.sort - b.sort });
                     chrome.storage.local.set({ data: result.data }).then(() => {
-                        showTip(1);
+                        showTip(1, 'add success');
                         showTable(guidAdd);
                     });
                 }
@@ -281,7 +279,7 @@ $(function () {
                         });
                         result.data.sort(function (a, b) { return a.sort - b.sort });
                         chrome.storage.local.set({ data: result.data }).then(() => {
-                            showTip(1);
+                            showTip(1, 'edit success');
                             showTable(guidHdd);
                         });
                     });
@@ -299,7 +297,7 @@ $(function () {
                         "response": response
                     }]
                 }).then(() => {
-                    showTip(1);
+                    showTip(1, 'add success');
                     showTable(guidAdd);
                     operStatus(true);//first add:open checkbox and show table
                 });

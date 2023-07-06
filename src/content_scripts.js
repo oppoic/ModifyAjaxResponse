@@ -23,10 +23,13 @@ script.addEventListener('load', () => {
 
 chrome.storage.onChanged.addListener(function (changes) {
     chrome.storage.local.get(['on', 'data']).then((result) => {
-        if (changes.hasOwnProperty('on')) {
+        if (changes.hasOwnProperty('on') && changes.hasOwnProperty('data')) {
+            postMessage({ type: 'modify_ajax_response_datachange', on: changes.on.newValue, data: changes.data.newValue });
+        }
+        else if (changes.hasOwnProperty('on')) {
             postMessage({ type: 'modify_ajax_response_datachange', on: changes.on.newValue, data: result.data });
         }
-        if (changes.hasOwnProperty('data')) {
+        else if (changes.hasOwnProperty('data')) {
             postMessage({ type: 'modify_ajax_response_datachange', on: result.on, data: changes.data.newValue });
         }
     });
