@@ -6,7 +6,7 @@
 
 <div align="center">
 
-### Chrome浏览器插件，修改ajax请求的返回值
+### 浏览器插件，修改ajax请求的返回值
 
 [English](README.md) &nbsp;|&nbsp; 简体中文
 </div>
