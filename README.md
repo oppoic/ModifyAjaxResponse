@@ -8,12 +8,12 @@
 
 ### Modify response text of ajax requests
 
-English &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README.zh-cn.md)
+English &nbsp;|&nbsp; [简体中文](README.zh-cn.md)
 </div>
 
 ## Install via Online store
-<a href="https://chrome.google.com/webstore/detail/modifajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia" target="_blank" ><img src="./show/chrome.png" width="200" alt="Get ModifyAjaxResponse for Chromium"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://microsoftedge.microsoft.com/addons/detail/koeofaphicbgllfobkdbacgmcpnaifhn" target="_blank"><img src="./show/edge.png" width="160" alt="Get ModifyAjaxResponse for Microsoft Edge"></a>
+<a href="https://chrome.google.com/webstore/detail/modifajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia"><img src="./show/chrome.png" width="200" alt="Get ModifyAjaxResponse for Chromium"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/koeofaphicbgllfobkdbacgmcpnaifhn"><img src="./show/edge.png" width="160" alt="Get ModifyAjaxResponse for Microsoft Edge"></a>
 
 ## Install via Developer mode
 1. [Download](https://github.com/oppoic/ModifyAjaxResponse/releases) newest **ModifyAjaxResponse.zip**
