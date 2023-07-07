@@ -1,22 +1,21 @@
 <p align="center">
-    <span>English</span> |  
-    <a href="README.zh-cn.md">中文</a>
+    <img src="./src/images/128.png" width="128">
 </p>
 
-# ModifyAjaxResponse
+<h1 align="center">ModifyAjaxResponse</h1>
 
-## Description
-Chrome Extension, Modify response text of ajax requests
+<div align="center">
 
-This extension only overrides the response data in the XMLHTTPRequest object as well as the fetch method. The real response which you can see in DevTools Network panel will not be modified
+### Modify response text of ajax requests
 
-## Preview
-![Preview](/show/ModifyAjaxResponse.gif)
+English &nbsp;&nbsp;|&nbsp;&nbsp; [简体中文](README.zh-cn.md)
+</div>
 
-## Installation(choose one of two)
-#### Chrome Web Store [Click to Redirect](https://chrome.google.com/webstore/detail/modifyajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia)
+## Install via Online store
+<a href="https://chrome.google.com/webstore/detail/modifyajaxresponse/odpiadnfijfeggnnodoaaphkkjkmpnia" target="_blank" ><img src="https://user-images.githubusercontent.com/64502893/231991498-8df6dd63-727c-41d0-916f-c90c15127de3.png" width="200" alt="Get ModifyAjaxResponse for Chromium"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://microsoftedge.microsoft.com/addons/detail/koeofaphicbgllfobkdbacgmcpnaifhn" target="_blank"><img src="https://user-images.githubusercontent.com/64502893/231991158-1b54f831-2fdc-43b6-bf9a-f894000e5aa8.png" width="160" alt="Get ModifyAjaxResponse for Microsoft Edge"></a>
 
-#### Chrome Extension Developer Mode
+## Install via Developer mode
 1. [Download](https://github.com/oppoic/ModifyAjaxResponse/releases) newest **ModifyAjaxResponse.zip**
 2. Open Chrome and go to: chrome://extensions/
 3. Enable "Developer mode"
@@ -24,11 +23,17 @@ This extension only overrides the response data in the XMLHTTPRequest object as 
 5. Select "ModifyAjaxResponse/src" directory
 6. OK
 
+## Description
+This extension only overrides the response data in the XMLHTTPRequest object as well as the fetch method. The real response which you can see in DevTools Network panel will not be modified
+
+## Preview
+![Preview](/show/ModifyAjaxResponse.gif)
+
 ## Thanks
-1. [jQuery](https://github.com/jquery/jquery)
-2. [Bootstrap](https://github.com/twbs/bootstrap)
-3. [jquery-confirm](https://github.com/craftpip/jquery-confirm)
-4. [toastr](https://github.com/CodeSeven/toastr)
+* [jQuery](https://github.com/jquery/jquery)
+* [Bootstrap](https://github.com/twbs/bootstrap)
+* [jquery-confirm](https://github.com/craftpip/jquery-confirm)
+* [toastr](https://github.com/CodeSeven/toastr)
 
 ## License
-See [LICENSE](LICENSE) for more details.
+See [LICENSE](LICENSE) for more details
