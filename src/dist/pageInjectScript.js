@@ -6,12 +6,15 @@ function intercept_ajax(rules) {
         var url = open_arguments[1];
 
         var flag = false;
+        var matchPattern = '';
+        var matchUrl = '';
         var xhrTxt = '';
         for (let i = 0, len = rules.length; i < len; i++) {
             var curRule = rules[i];
-            //console.log('[xhr] request:' + method + ' ' + url + ' pattern:' + curRule.method + ' ' + curRule.pattern);
             if (method === curRule.method && url.indexOf(curRule.pattern) > -1) {
                 flag = true;
+                matchPattern = curRule.method + ':' + curRule.pattern;
+                matchUrl = url;
                 xhrTxt = curRule.response;
                 break;
             }
@@ -19,7 +22,9 @@ function intercept_ajax(rules) {
 
         this.addEventListener('readystatechange', function (event) {
             if (flag && this.readyState === 4) {
-                console.log('[xhr Matched]');
+                console.log('XHR Matched');
+                console.log('[Match Pattern]' + matchPattern);
+                console.log('[Match Url]' + matchUrl);
                 console.log('[Original Response]' + event.target.responseText);
                 console.log('[Modified Response]' + xhrTxt);
                 Object.defineProperty(this, 'response', { writable: true });
@@ -37,12 +42,15 @@ function intercept_fetch(rules) {
         var method = typeof (options) == "undefined" ? 'get' : (typeof (options.method) == "undefined" || options.method === '' ? 'other' : options.method.toLowerCase());
 
         var flag = false;
+        var matchPattern = '';
+        var matchUrl = '';
         var fetchTxt = '';
         for (let i = 0, len = rules.length; i < len; i++) {
             var curRule = rules[i];
-            //console.log('[fetch] request:' + method + ' ' + url + ' pattern:' + curRule.method + ' ' + curRule.pattern);
             if (method === curRule.method && url.indexOf(curRule.pattern) > -1) {
                 flag = true;
+                matchPattern = curRule.method + ':' + curRule.pattern;
+                matchUrl = url;
                 fetchTxt = curRule.response;
                 break;
             }
@@ -50,7 +58,9 @@ function intercept_fetch(rules) {
 
         var response = await originFetch(url, options);
         if (flag) {
-            console.log('[fetch Matched]');
+            console.log('Fetch Matched');
+            console.log('[Match Pattern]' + matchPattern);
+            console.log('[Match Url]' + matchUrl);
             console.log('[Modified Response]' + fetchTxt);
             return new Response(fetchTxt, response);
         }
