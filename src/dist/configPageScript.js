@@ -150,7 +150,6 @@ $(function () {
                 $('#btnSave').attr('class', 'btn btn-success mt-3').text('Edit');
             }
             else {
-                $('#formArea').hide();
                 showTip(4, 'not exists, please refresh page');
             }
         });
@@ -173,7 +172,6 @@ $(function () {
                 chrome.storage.local.set({ data: result.data });
             }
             else {
-                $('#formArea').hide();
                 showTip(4, 'not exists, please refresh page');
             }
         });
@@ -199,10 +197,15 @@ $(function () {
                                 arrayData.push(v);
                             }
                         });
-                        chrome.storage.local.set({ data: arrayData }).then(() => {
-                            $('#formArea').hide();
-                            showTable();
-                        });
+                        if (result.data.length !== arrayData.length) {
+                            chrome.storage.local.set({ data: arrayData }).then(() => {
+                                $('#formArea').hide();
+                                showTable();
+                            });
+                        }
+                        else {
+                            showTip(4, 'not exists, please refresh page');
+                        }
                     });
                 }
             }
@@ -267,9 +270,11 @@ $(function () {
                     });
                 }
                 else {//edit
+                    var isExist = false;
                     chrome.storage.local.get(['data']).then((result) => {
                         $.each(result.data, function (i, v) {
                             if (v.guid === guidHdd) {
+                                isExist = true;
                                 v.sort = parseInt(sort);
                                 v.method = method;
                                 v.pattern = pattern;
@@ -277,11 +282,16 @@ $(function () {
                                 return false;
                             }
                         });
-                        result.data.sort(function (a, b) { return a.sort - b.sort });
-                        chrome.storage.local.set({ data: result.data }).then(() => {
-                            showTip(1, 'edit success');
-                            showTable(guidHdd);
-                        });
+                        if (isExist) {
+                            result.data.sort(function (a, b) { return a.sort - b.sort });
+                            chrome.storage.local.set({ data: result.data }).then(() => {
+                                showTip(1, 'edit success');
+                                showTable(guidHdd);
+                            });
+                        }
+                        else {
+                            showTip(4, 'not exists, please refresh page');
+                        }
                     });
                 }
             }
