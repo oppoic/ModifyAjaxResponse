@@ -29,7 +29,7 @@
 ## 预览
 ![预览](/show/ModifyAjaxResponse.gif)
 
-## 鸣谢
+## 致谢
 * [jQuery](https://github.com/jquery/jquery)
 * [Bootstrap](https://github.com/twbs/bootstrap)
 * [jquery-confirm](https://github.com/craftpip/jquery-confirm)

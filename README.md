@@ -29,7 +29,7 @@ This extension only overrides the response data in the XMLHTTPRequest object as 
 ## Preview
 ![Preview](/show/ModifyAjaxResponse.gif)
 
-## Thanks
+## Acknowledgements
 * [jQuery](https://github.com/jquery/jquery)
 * [Bootstrap](https://github.com/twbs/bootstrap)
 * [jquery-confirm](https://github.com/craftpip/jquery-confirm)
