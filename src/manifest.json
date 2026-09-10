@@ -3,7 +3,7 @@
     "name": "ModifyAjaxResponse",
     "description": "Modify response text of ajax requests",
     "homepage_url": "https://github.com/oppoic/ModifyAjaxResponse",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "icons": {
         "16": "images/16.png",
         "32": "images/32.png",
